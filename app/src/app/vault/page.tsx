@@ -1,9 +1,12 @@
+
 'use client'
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import SideBar  from "@/components/SideBar"
 import {X, Plus,CirclePlus,FolderPlus,ChevronRight,ChevronDown} from "lucide-react"
-
+import AboutPage from "../about/page"
+import Projects from "../projects/page"
+import Stack from "../stack/page"
 
 type FileItem = {
   id: string
@@ -20,7 +23,7 @@ type FolderItem = {
 export default function VaultWorkspacePage() {
   // folders state: 'Hello' is always present by default
   const [folders, setFolders] = useState<FolderItem[]>([
-    { id: 'hello', name: 'Hello', open: false, files: [
+    { id: 'hello', name: 'Hello', open: true, files: [
       { id: 'about', name: 'About' },
       { id: 'projects', name: 'Projects' },
       { id: 'stack', name: 'Stack' },
@@ -28,7 +31,8 @@ export default function VaultWorkspacePage() {
     ] }
   ])
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>('hello')
-  const [openFolderIds, setOpenFolderIds] = useState<Record<string, boolean>>({ hello: false })
+  const [selectedFileId, setSelectedFileId] = useState<string | null>('about')
+  const [openFolderIds, setOpenFolderIds] = useState<Record<string, boolean>>({ hello: true })
   const [toast, setToast] = useState<{show: boolean; text: string}>({ show: false, text: '' })
 
   // helper to generate ids
@@ -77,6 +81,16 @@ export default function VaultWorkspacePage() {
     setSelectedFolderId(folderId)
   }
 
+  // Add this function to handle file selection
+  const selectFile = (fileId: string) => {
+    setSelectedFileId(fileId)
+    // Scroll to the section
+    const element = document.getElementById(`section-${fileId}`)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   useEffect(() => {
     // ensure hello folder always exists - defensive
     if (!folders.find(f => f.id === 'hello')) {
@@ -84,12 +98,40 @@ export default function VaultWorkspacePage() {
     }
   }, [folders])
 
+  // Scroll observer effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['about', 'projects', 'stack', 'connect']
+      const scrollContainer = document.getElementById('scroll-container')
+      
+      if (!scrollContainer) return
+
+      const scrollPosition = scrollContainer.scrollTop + 200 // offset for better UX
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(`section-${sectionId}`)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setSelectedFileId(sectionId)
+            break
+          }
+        }
+      }
+    }
+
+    const scrollContainer = document.getElementById('scroll-container')
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll)
+      return () => scrollContainer.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const [open, setOpen]=useState(false);
   return (
-
-    <div className="overflow-hidden">
+    <div>
     {/* Header */}
-    <div className="border-b border-border overflow-hidden">
+    <div className="border-b border-border">
             <div className="flex items-center gap-4 px-4 py-2">
       <div className="flex space-x-2 mb-6 mt-5">
         <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />   
@@ -119,17 +161,17 @@ export default function VaultWorkspacePage() {
               </div>
             </div>
           </div>
-     <div className="flex h-screen bg-[#121212] text-white overflow-hidden">
+     <div className="flex h-screen bg-[#121212] text-white">
      {/* Window/top bar */}
           
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1">
       <div className="flex m-0 h-screen w-full">
         {/* Left icon sidebar */}
         <SideBar />
 
         <aside className="w-56 border-r border-border bg-muted/10">
-          <div className="p-4">
-            <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="p-2">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
            
             </div>
             <div aria-label="Workspace sections" className="text-sm">
@@ -162,7 +204,12 @@ export default function VaultWorkspacePage() {
                         <ul>
                           {folder.files.map(f => (
                             <li key={f.id}>
-                              <a className="block rounded-md px-3 py-2 ml-6 hover:bg-muted/20" href="#">{f.name}</a>
+                              <button
+                                  className={`block rounded-md px-3 py-2 mt-3 mb-3 ml-6 hover:bg-muted/20 w-30 text-left ${selectedFileId === f.id ? 'bg-muted/30' : ''}`}
+                                  onClick={() => selectFile(f.id)}
+                                >
+                                  {f.name}
+                                </button>
                             </li>
                           ))}
                         </ul>
@@ -182,17 +229,30 @@ export default function VaultWorkspacePage() {
          
 
           {/* Center content */}
-          <div className="flex-1 grid place-items-center">
-            <div className="text-center">
-              <h1 className="text-xl font-semibold tracking-tight text-muted-foreground">No file is open</h1>
-              <div className="mt-4 flex items-center justify-center gap-6">
-                <Link href="#" className="text-primary font-medium hover:underline">
-                  Create a new file
-                </Link>
-                <Link href="/" className="text-muted-foreground hover:underline">
-                  Close
-                </Link>
-              </div>
+          <div id="scroll-container" className="flex-1 overflow-y-auto scroll-smooth">
+            {/* Render file content based on selectedFileId */}
+            <div id="section-about" className="flex items-start justify-start m-10 p-10">
+              <AboutPage />
+            </div>
+            
+            <div id="section-projects" >
+          
+               <Projects/>
+         
+            </div>
+            
+            <div id="section-stack" className="min-h-screen flex items-center justify-center">
+              <Stack/>
+            </div>
+            
+            <div id="section-connect" className="min-h-screen flex items-center justify-center">
+              <section className="max-w-4xl px-8">
+                <h2 className="text-2xl font-bold mb-4">Connect</h2>
+                <p>
+                  {/* Add your connect/contact content here */}
+                  You can reach me at...
+                </p>
+              </section>
             </div>
           </div>
         </section>
@@ -210,6 +270,3 @@ export default function VaultWorkspacePage() {
     </div>
   )
 }
-
-// toast styles are provided via tailwind classes in the project; this simple element
-// will sit in the extreme bottom-right when visible.
