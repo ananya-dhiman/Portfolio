@@ -6,29 +6,59 @@ import { SiNextdotjs, SiTailwindcss, SiExpress, SiFlask, SiPostgresql, SiFirebas
 
 const techGraph = {
   nodes: [
-    { id: "Frontend", group: "category", color: "#00E5FF" },
-    { id: "React", group: "tech", parent: "Frontend" },
-    { id: "Next.js", group: "tech", parent: "Frontend" },
-    { id: "Tailwind", group: "tech", parent: "Frontend" },
+  // Frontend — center
+  { id: "Frontend", group: "category", color: "#00E5FF", fx: 0, fy: 0 },
+  { id: "React", group: "tech", parent: "Frontend", fx: -80, fy: -60 },
+  { id: "Next.js", group: "tech", parent: "Frontend", fx: 0, fy: -150 },
+  { id: "Tailwind", group: "tech", parent: "Frontend", fx: 100, fy: -80 },
+  { id: "HTML", group: "tech", parent: "Frontend", fx: -100, fy: 80 },
+  { id: "CSS", group: "tech", parent: "Frontend", fx: 100, fy: 80 },
+  { id: "Flutter", group: "tech", parent: "Frontend", fx: 0, fy: 150 },
 
-    { id: "Backend", group: "category", color: "#66FF99" },
-    { id: "Node.js", group: "tech", parent: "Backend" },
-    { id: "Express", group: "tech", parent: "Backend" },
-    { id: "Flask", group: "tech", parent: "Backend" },
+  // Backend — top-left
+  { id: "Backend", group: "category", color: "#66FF99", fx: -250, fy: -50 },
+  { id: "Node.js", group: "tech", parent: "Backend", fx: -350, fy: -150 },
+  { id: "Flask", group: "tech", parent: "Backend", fx: -200, fy: -200 },
 
-    { id: "Database", group: "category", color: "#FFD54F" },
-    { id: "PostgreSQL", group: "tech", parent: "Database" },
-    { id: "Firebase", group: "tech", parent: "Database" },
-  ],
+  // Database — top-right
+  { id: "Database", group: "category", color: "#FFD54F", fx: 300, fy: -100 },
+  { id: "PostgreSQL", group: "tech", parent: "Database", fx: 200, fy: -200 },
+  { id: "Firebase", group: "tech", parent: "Database", fx: 300, fy: -230 },
+  { id: "Supabase", group: "tech", parent: "Database", fx: 500, fy: -200 },
+
+  // Languages — bottom-left
+  { id: "Languages", group: "category", color: "#66FF99", fx: -400, fy: 50 },
+  { id: "C++", group: "tech", parent: "Languages", fx: -400, fy: 300 },
+  { id: "JS", group: "tech", parent: "Languages", fx: -200, fy: 200 },
+
+  // Tools — bottom-right
+  { id: "Tools", group: "category", color: "#66FF99", fx: 400, fy: 50 },
+  { id: "Blender", group: "tech", parent: "Tools", fx: 200, fy: 200 },
+  { id: "Illustrator", group: "tech", parent: "Tools", fx: 300, fy: 250 },
+  { id: "Figma", group: "tech", parent: "Tools", fx: 500, fy: 250 },
+  { id: "Linux", group: "tech", parent: "Tools", fx: 250, fy: 100 }
+],
+    
   links: [
     { source: "Frontend", target: "React" },
     { source: "Frontend", target: "Next.js" },
     { source: "Frontend", target: "Tailwind" },
+    { source: "Frontend", target: "HTML" },
+    { source: "Frontend", target: "CSS" },
+    { source: "Frontend", target: "Flutter" },
     { source: "Backend", target: "Node.js" },
-    { source: "Backend", target: "Express" },
+    
     { source: "Backend", target: "Flask" },
     { source: "Database", target: "PostgreSQL" },
     { source: "Database", target: "Firebase" },
+    { source: "Database", target: "Supabase" },
+    { source: "Languages", target: "C++" },
+    { source: "Languages", target: "JS" },
+    { source: "Tools", target: "Blender" },
+    { source: "Tools", target: "Illustrator" },
+    { source: "Tools", target: "Figma" },
+    { source: "Tools", target: "Linux" }
+
   ],
 };
 
@@ -38,23 +68,32 @@ const techIcons: Record<string, string> = {
   "Next.js": "/icons/nextjs.svg",
   "Tailwind": "/icons/tailwind.svg",
   "Node.js": "/icons/nodejs.svg",
-  "Express": "/icons/express.svg",
+  "Supabase": "/icons/supabase.svg",
+  "Flutter": "/icons/flutter.svg",
   "Flask": "/icons/flask.svg",
+  "HTML": "/icons/html.svg",
+  "CSS": "/icons/css.svg",
+  "C++": "/icons/cpp.svg",
+  "JS": "/icons/javascript.svg",
   "PostgreSQL": "/icons/postgresql.svg",
   "Firebase": "/icons/firebase.svg",
+  "Blender": "/icons/blender.svg",
+  "Illustrator": "/icons/illustrator.svg",
+  "Figma": "/icons/figma.svg",
+  "Linux": "/icons/linux.svg",
+  
   "Frontend": "/icons/frontend.svg",
   "Backend": "/icons/backend.svg",
   "Database": "/icons/database.svg"
-};
 
+};
 
 export default function Stack() {
   const fgRef = useRef<any>(null);
   const [hoveredNode, setHoveredNode] = useState<any>(null);
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, content: '' });
-
-  // Preload icon images (cached in a ref for best perf)
   const iconImagesRef = useRef<Record<string, HTMLImageElement>>({});
+
   useEffect(() => {
     Object.entries(techIcons).forEach(([id, path]) => {
       const img = new Image();
@@ -64,18 +103,23 @@ export default function Stack() {
     });
   }, []);
 
-  // Enhanced graph data with positioning hints
-  const graphData = {
-    nodes: techGraph.nodes.map(node => ({
-      ...node,
-      val: node.group === 'category' ? 20 : 10,
-      iconPath: techIcons[node.id] || ''
-    })),
-    links: techGraph.links.map(link => ({
-      ...link,
-      color: 'rgba(255, 255, 255, 0.2)'
-    }))
-  };
+  const centeredNodes = techGraph.nodes.map(node => ({
+  ...node,
+  fx: (node.fx ?? 0) -250, // shift left
+  fy: (node.fy ?? 0 )-25
+}));
+
+const graphData = {
+  nodes: centeredNodes.map(node => ({
+    ...node,
+    val: node.group === 'category' ? 20 : 10,
+    iconPath: techIcons[node.id] || ''
+  })),
+  links: techGraph.links.map(link => ({
+    ...link,
+    color: 'rgba(255, 255, 255, 0.25)'
+  }))
+};
 
   const handleNodeHover = useCallback((node) => {
     setHoveredNode(node);
@@ -84,8 +128,6 @@ export default function Stack() {
       const content = node.group === 'category'
         ? `${node.id} Technologies`
         : `${node.id}${parentNode ? ` (${parentNode.id})` : ''}`;
-
-      // convert graph coords -> screen coords for tooltip
       const screen = fgRef.current?.graph2ScreenCoords?.(node.x, node.y) ?? { x: 0, y: 0 };
       setTooltip({ show: true, x: screen.x, y: screen.y, content });
     } else {
@@ -93,63 +135,51 @@ export default function Stack() {
     }
   }, [graphData]);
 
-  // Draw only the icon image (no circle or border). keep label.
-  // Updated: larger base sizes, hovered emphasis, and dimming of non-hovered elements.
   const handleNodeCanvasObject = useCallback((node: any, ctx: CanvasRenderingContext2D, globalScale: number) => {
     const label = node.id;
-    const baseFontSize = node.group === 'category' ? 14 : 12;
-
-    // choose image by node id (preloaded)
+    const baseFontSize = node.group === 'category' ? 16 : 14;
     const img = iconImagesRef.current[node.id] || iconImagesRef.current[node.iconPath] || null;
 
+    // Ensure we have valid coordinates
+    const x = node.fx || node.x || 0;
+    const y = node.fy || node.y || 0;
+    
+    if (isNaN(x) || isNaN(y)) {
+      return; // Skip rendering if coordinates are invalid
+    }
+
     ctx.save();
-
-    // dim non-hovered nodes when one node is hovered
-    if (hoveredNode && hoveredNode.id !== node.id) {
-      ctx.globalAlpha = 0.25; // dimmed
-    } else {
-      ctx.globalAlpha = 1;
-    }
-
-    // validate coordinates and scale (avoid NaN/Infinity)
-    const x = Number(node.x);
-    const y = Number(node.y);
-    const gs = Number(globalScale);
-    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(gs) || gs <= 0) {
-      // positions not ready yet — avoid drawing gradients / images that would crash
-      ctx.restore();
-      return;
-    }
+    const size = node.group === 'category' ? 80 : 60;
 
     if (img && img.complete && img.naturalWidth) {
-      // make icons larger and keep consistent screen-size via globalScale
-      const baseSizePx = node.group === 'category' ? 44 : 36; // larger visible icons
-      const safeScale = Math.max(gs, 0.1); // prevent division by tiny values
-      let size = baseSizePx / safeScale;
-
-      // emphasize hovered node
       const isHovered = hoveredNode && hoveredNode.id === node.id;
       if (isHovered) {
-        size *= 1.6;
-        // subtle glow behind hovered icon — only if size and coords are finite
-        const glowRadius = size * 0.9;
-        if (Number.isFinite(glowRadius) && glowRadius > 0) {
-          ctx.save();
-          ctx.globalAlpha = 0.7;
-          const g = ctx.createRadialGradient(x, y, Math.max(size * 0.1, 1), x, y, glowRadius);
-          g.addColorStop(0, 'rgba(255,255,255,0.25)');
+        const glowRadius = Math.max(8, size * 0.85);
+        ctx.save();
+        ctx.globalAlpha = 0.7;
+        try {
+          const g = ctx.createRadialGradient(
+            Number(x), 
+            Number(y), 
+            Math.max(size * 0.08, 1),
+            Number(x),
+            Number(y),
+            glowRadius
+          );
+          g.addColorStop(0, 'rgba(255,255,255,0.22)');
           g.addColorStop(1, 'rgba(255,255,255,0)');
           ctx.fillStyle = g;
           ctx.beginPath();
           ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
           ctx.fill();
-          ctx.restore();
+        } catch (e) {
+          console.warn('Failed to create gradient:', e);
         }
+        ctx.restore();
       }
 
       ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
     } else {
-      // fallback: draw a simple emoji/dot if image not available
       ctx.font = `${baseFontSize}px Sans-Serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -157,12 +187,11 @@ export default function Stack() {
       ctx.fillText('•', x, y);
     }
 
-    // Draw label beneath the icon (respect dimming)
-    ctx.font = `${baseFontSize / gs}px Sans-Serif`;
+    ctx.font = `${baseFontSize}px Sans-Serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.fillStyle = (hoveredNode && hoveredNode.id === node.id) ? '#fff' : '#ddd';
-    ctx.fillText(label, x, y + ((node.group === 'category' ? 20 : 16) / gs));
+    ctx.fillText(label, x, y + (node.group === 'category' ? 45 : 35));
 
     ctx.restore();
   }, [hoveredNode]);
@@ -174,19 +203,14 @@ export default function Stack() {
     if (typeof start !== 'object' || typeof end !== 'object') return;
 
     const isConnectedToHover = hoveredNode && (
-      hoveredNode.id === start.id || hoveredNode.id === end.id
+      hoveredNode.id === (start.id ?? start) || hoveredNode.id === (end.id ?? end)
     );
 
     ctx.save();
-    if (hoveredNode) {
-      // dim non-related links, keep connected links more visible
-      ctx.strokeStyle = isConnectedToHover ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.08)';
-      ctx.lineWidth = isConnectedToHover ? 2 : 1;
-    } else {
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-      ctx.lineWidth = 1;
-    }
-
+    ctx.strokeStyle = hoveredNode 
+      ? (isConnectedToHover ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.06)')
+      : 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = isConnectedToHover ? 2 : 1;
     ctx.beginPath();
     ctx.moveTo(start.x, start.y);
     ctx.lineTo(end.x, end.y);
@@ -196,7 +220,7 @@ export default function Stack() {
 
   return (
     <div className="relative w-full h-screen bg-gray-900">
-      <div className="absolute top-4 left-4 z-10 bg-gray-800 rounded-lg p-4 shadow-lg">
+      {/* <div className="absolute top-4 left-4 z-10 bg-gray-800 rounded-lg p-4 shadow-lg">
         <h2 className="text-xl font-bold text-white mb-2">Tech Stack Visualization</h2>
         <p className="text-gray-300 text-sm">Hover over nodes to explore</p>
         <div className="mt-3 space-y-1">
@@ -213,7 +237,7 @@ export default function Stack() {
             <span className="text-xs text-gray-300">Database</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {tooltip.show && (
         <div
@@ -228,14 +252,13 @@ export default function Stack() {
         </div>
       )}
 
-      {/* dim overlay when a node is hovered (doesn't block pointer events) */}
       {hoveredNode && (
         <div
           aria-hidden
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.56)',
+            backgroundColor: 'rgba(0,0,0,0.5)',
             zIndex: 5,
             pointerEvents: 'none',
             transition: 'opacity 180ms'
@@ -244,21 +267,30 @@ export default function Stack() {
       )}
 
       <ForceGraph2D
+      
         ref={fgRef}
         graphData={graphData}
         nodeRelSize={6}
         nodeCanvasObject={handleNodeCanvasObject}
         linkCanvasObject={handleLinkCanvasObject}
         onNodeHover={handleNodeHover}
-        cooldownTicks={100}
-        onEngineStop={() => fgRef.current?.zoomToFit(400)}
-        d3AlphaDecay={0.02}
-        d3VelocityDecay={0.3}
-        warmupTicks={100}
-        linkDirectionalParticles={2}
-        linkDirectionalParticleWidth={hoveredNode ? 2 : 0}
+        enableZoom={false}
+        enablePanInteraction={false}
+        enablePointerInteraction={true}
+        d3AlphaDecay={0}
+        d3VelocityDecay={1}
+        nodeFixedRadius={node => node.group === 'category' ? 40 : 30}
+        warmupTicks={0}
+        cooldownTicks={0}
+        linkHoverPrecision={0}
+        forceEngine="d3"
+        linkDirectionalParticles={0}
+        linkDirectionalParticleWidth={0}
         nodeCanvasObjectMode={() => 'replace'}
         linkCanvasObjectMode={() => 'replace'}
+        minZoom={1}
+        maxZoom={1}
+        zoom={1}
       />
     </div>
   );
