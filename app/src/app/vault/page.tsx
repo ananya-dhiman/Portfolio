@@ -8,7 +8,8 @@ import AboutPage from "../about/page"
 import Projects from "../projects/page"
 import dynamic from "next/dynamic";
 import Connect from "../contact/page"
-// load Stack only on the client (prevents "window is not defined" from force-graph)
+
+import Experience from "../experience/page"
 const Stack = dynamic(() => import("../stack/page"), { ssr: false });
 
 type FileItem = {
@@ -24,9 +25,12 @@ type FolderItem = {
 }
 
 export default function VaultWorkspacePage() {
+
+
   const [folders, setFolders] = useState<FolderItem[]>([
     { id: 'hello', name: 'Hello', open: true, files: [
       { id: 'about', name: 'About' },
+       { id: 'experience', name: 'Experience' },
       { id: 'projects', name: 'Projects' },
       { id: 'stack', name: 'Stack' },
       { id: 'connect', name: 'Connect' },
@@ -36,6 +40,7 @@ export default function VaultWorkspacePage() {
   const [selectedFileId, setSelectedFileId] = useState<string | null>('about')
   const [openFolderIds, setOpenFolderIds] = useState<Record<string, boolean>>({ hello: true })
   const [toast, setToast] = useState<{ show: boolean; text: string }>({ show: false, text: '' })
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
   const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2,9)}`
   const showToast = (text: string, ms = 2500) => {
@@ -81,7 +86,7 @@ export default function VaultWorkspacePage() {
   // Auto-highlight section based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'projects', 'stack', 'connect']
+      const sections = ['about', 'experience','projects', 'stack', 'connect']
       const scrollContainer = document.getElementById('scroll-container')
       if (!scrollContainer) return
       const scrollPosition = scrollContainer.scrollTop + 300
@@ -131,8 +136,14 @@ export default function VaultWorkspacePage() {
       {/* Workspace */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <SideBar />
-        <aside className="w-56 border-r border-border bg-muted/10 overflow-y-auto">
+        <SideBar isCollapsed={isCollapsed} onToggle={() => setIsCollapsed(!isCollapsed)} />
+
+        <aside
+        className={`${
+          isCollapsed ? "w-0 opacity-0" : "w-56 opacity-100"
+        } border-r border-border bg-muted/10 overflow-y-auto transition-all duration-300`}
+      >
+
           <div className="p-2">
             <ul className="space-y-2 text-sm">
               <li className="flex items-center justify-center gap-4 p-3 ">
@@ -174,6 +185,11 @@ export default function VaultWorkspacePage() {
           <div id="section-about" className=" snap-start flex items-start justify-start ">
             <AboutPage />
           </div>
+
+           <div id="section-experience" className=" snap-start flex items-center justify-center">
+            <Experience/>
+          </div>
+
           <div
         id="section-projects"
         className="snap-start flex flex-col items-center justify-center "

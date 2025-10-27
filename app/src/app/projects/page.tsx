@@ -15,7 +15,7 @@ export default function Projects() {
       tech: ["React", "Node.js", "MongoDB", "LangChain"],
       completed: true,
       githubLink: "L",
-      shadowColor: "#FF6F61",
+      shadowColor: "#39FF14",
       liveLink: "https://vibescape.example.com",
     },
     {

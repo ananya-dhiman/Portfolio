@@ -126,6 +126,10 @@
 
   body {
     @apply bg-background text-foreground overflow-hidden;
+    background: radial-gradient(circle at top left, #151517, #0e0e10);
+  font-family: "Inter", "JetBrains Mono", monospace;
+  scroll-behavior: smooth;
+
   }
 
   html {

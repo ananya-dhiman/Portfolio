@@ -253,59 +253,27 @@ export default function About() {
       >
         {/* Cover GIF */}
         <Image
-          src="/cover.gif"
+          src="/cover.svg"
           alt="Cover Background"
           fill
           priority
-          className="object-cover object-center"
+          
         />
 
         {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black" />
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black" /> */}
 
-        {/* Text Overlay */}
+        {/* === Floating Music Block (top right) === */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.2 }}
-          className="relative z-10 w-full px-8 md:px-16 max-w-5xl space-y-8"
+          initial={{ opacity: 0, x: 30, y: -10 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="absolute top-8 right-8 md:top-10 md:right-12 z-20"
         >
-          {/* Soft radial background for smoother blur */}
-          <div className="relative p-8 rounded-3xl bg-gradient-to-b from-black/40 via-black/50 to-transparent backdrop-blur-xs shadow-lg border border-white/10">
-            <h1 className="text-5xl md:text-6xl font-semibold text-white drop-shadow-lg mb-6">
-              🜂 About Me
-            </h1>
-
-            <blockquote className="text-gray-300 text-lg md:text-xl italic border-l-2 border-gray-600 pl-4 mb-6">
-              “Building feels like breathing — whether it’s code, design, or ideas.”
-            </blockquote>
-
-            <p className="text-gray-200 text-lg md:text-2xl leading-relaxed">
-              Hey, I’m <span className="text-white font-medium">Ananya Dhiman</span> — a third-year
-              Computer Science student
-              driven by
-              the art of turning logic into experiences. My world blends{" "}
-              AI,{" "}
-             backend systems, and{" "}
-              creative design, shaped by projects that merge
-              performance with emotion.
+          <div className="bg-[#1a1a1a]/70 backdrop-blur-md border border-gray-800 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-lg hover:border-gray-700 transition-all">
+            <p className="text-gray-300 text-sm md:text-base font-medium flex flex-row items-center gap-2">
+              <RotatingVinyl /> <span>“Duvet” — Bôa</span>
             </p>
-          </div>
-        </motion.div>
-
-         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full relative max-w-4xl mx-auto"
-        >
-          <div className="bg-[#1a1a1a]/60 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 flex items-center justify-between hover:border-gray-700 transition-all">
-            <div>
-              <p className="text-gray-300 text-lg font-medium flex flex-row items-center gap-2">
-                <RotatingVinyl /> <span className="ml-8">“Duvet” — Bôa</span>
-              </p>
-            </div>
-
             <a
               href="https://music.youtube.com/watch?v=o7fgFaXKVa0"
               target="_blank"
@@ -313,18 +281,42 @@ export default function About() {
               className="text-red-400 hover:text-red-500 transition"
               title="Listen on YouTube Music"
             >
-              <SiYoutubemusic className="text-3xl" />
+              <SiYoutubemusic className="text-2xl" />
             </a>
           </div>
         </motion.div>
+
+        {/* === Text Overlay === */}
+       <motion.div
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1.2, delay: 0.2 }}
+  className="relative z-10 w-full px-8 md:px-16 max-w-4xl translate-x-8 md:translate-x-16 mt-20 md:mt-32"
+>
+  <div className="relative p-8 rounded-xl  shadow-xl border border-white/10">
+    <h1 className="text-5xl md:text-4xl font-semibold text-white drop-shadow-lg mb-6">
+      About Me
+    </h1>
+{/* 
+    <blockquote className="text-gray-300 text-lg md:text-xl italic border-l-2 border-gray-600 pl-4 mb-6">
+      “A good quote.”
+    </blockquote> */}
+
+    <p className="text-gray-200 text-lg md:text-xl leading-relaxed">
+      Hey, I’m <span className="text-white font-medium">Ananya Dhiman</span> a third year
+      Computer Science student driven by the art of turning logic into experiences. My world blends{" "}
+    AI,{" "}
+     backend systems, and{" "}
+     creative design, shaped by projects that merge
+      performance with emotion.
+    </p>
+  </div>
+</motion.div>
+
       </motion.div>
 
       {/* === Main Content Below Hero === */}
-      <div className="relative w-full px-6 md:px-12 py-24 space-y-16 bg-black">
-        {/* === Music Section === */}
-       
-
-      </div>
+      {/* <div className="relative w-full px-6 md:px-12 py-24 space-y-16 bg-black"></div> */}
 
       {/* Floating Ambient Dots */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">

@@ -43,7 +43,7 @@ export default function ContactPage() {
   <div className="max-w-6xl w-full grid md:grid-cols-2 gap-35">
 
     <div className="flex flex-col justify-center space-y-10">
-      <div className="text-4xl md:text-7xl font-semibold text-gray-100">
+      <div className="text-2xl md:text-6xl font-semibold text-gray-100">
         Let’s <span className="text-primary">collab</span> and build something epic.
       </div>
       <p className="text-gray-400 text-lg tracking-wide">
@@ -51,16 +51,16 @@ export default function ContactPage() {
       </p>
       <div className="flex space-x-5 mt-4">
             <a href="https://github.com/ananya-dhiman" target="_blank" rel="noreferrer">
-              <FaGithub className="w-10 h-10 hover:text-primary transition" />
+              <FaGithub className="w-7 h-7 hover:text-primary transition" />
             </a>
             <a href="https://www.linkedin.com/in/ananya-dhiman-260876282/" target="_blank" rel="noreferrer">
-              <FaLinkedin className="w-10 h-10 hover:text-primary transition" />
+              <FaLinkedin className="w-7 h-7 hover:text-primary transition" />
             </a>
             <a href="https://x.com/DhimanAnan14116" target="_blank" rel="noreferrer">
-              <FaXTwitter className="w-10 h-10 hover:text-primary transition" />
+              <FaXTwitter className="w-7 h-7 hover:text-primary transition" />
             </a>
             <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">
-              <Mail className="w-10 h-10 hover:text-primary transition" />
+              <Mail className="w-7 h-7 hover:text-primary transition" />
             </a>
           </div>
     </div>
@@ -69,7 +69,7 @@ export default function ContactPage() {
 
         <form
   onSubmit={sendEmail}
-  className="text-2xl space-y-10 w-full"
+  className="text-xl mt-5 space-y-7 w-full"
 >
   <div>
     My name is{" "}
