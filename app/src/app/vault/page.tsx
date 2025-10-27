@@ -15,6 +15,7 @@ const Stack = dynamic(() => import("../stack/page"), { ssr: false });
 type FileItem = {
   id: string
   name: string
+  content?: string
 }
 
 type FolderItem = {
@@ -41,6 +42,7 @@ export default function VaultWorkspacePage() {
   const [openFolderIds, setOpenFolderIds] = useState<Record<string, boolean>>({ hello: true })
   const [toast, setToast] = useState<{ show: boolean; text: string }>({ show: false, text: '' })
     const [isCollapsed, setIsCollapsed] = useState(false);
+  const [activeFileContent, setActiveFileContent] = useState<string>("")
 
   const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2,9)}`
   const showToast = (text: string, ms = 2500) => {
@@ -60,7 +62,7 @@ export default function VaultWorkspacePage() {
     if (selectedFolderId === 'hello') return showToast('Cannot add files to the default Hello folder')
     setFolders(prev => prev.map(f => {
       if (f.id !== selectedFolderId) return f
-      const newFile: FileItem = { id: id('file'), name: `File ${f.files.length + 1}` }
+      const newFile: FileItem = { id: id('file'), name: `File ${f.files.length + 1}`,content: "" }
       return { ...f, files: [...f.files, newFile] }
     }))
   }
@@ -72,10 +74,34 @@ export default function VaultWorkspacePage() {
   const selectFolder = (folderId: string) => setSelectedFolderId(folderId)
 
   const selectFile = (fileId: string) => {
-    setSelectedFileId(fileId)
+  setSelectedFileId(fileId)
+
+  const folder = folders.find(f => f.id === selectedFolderId)
+  const file = folder?.files.find(f => f.id === fileId)
+
+  if (folder?.id === 'hello') {
     const element = document.getElementById(`section-${fileId}`)
     if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  } else {
+    setActiveFileContent(file?.content || "")
   }
+}
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const newContent = e.target.value
+  setActiveFileContent(newContent)
+
+  setFolders(prev => prev.map(folder => {
+    if (folder.id !== selectedFolderId) return folder
+    return {
+      ...folder,
+      files: folder.files.map(file => 
+        file.id === selectedFileId ? { ...file, content: newContent } : file
+      )
+    }
+  }))
+}
+
 
   useEffect(() => {
     if (!folders.find(f => f.id === 'hello')) {
@@ -181,7 +207,7 @@ export default function VaultWorkspacePage() {
             </ul>
           </div>
         </aside>
-        <section className="flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth" id="scroll-container">
+        {/* <section className="flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth" id="scroll-container">
           <div id="section-about" className=" snap-start flex items-start justify-start ">
             <AboutPage />
           </div>
@@ -203,7 +229,34 @@ export default function VaultWorkspacePage() {
           <div id="section-connect" className="h-screen snap-start flex flex-col items-start justify-start p-10">
            <Connect />
           </div>
-        </section>
+        </section> */}
+        <section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
+  {selectedFolderId === 'hello' ? (
+    <>
+      <div id="section-about" className="snap-start flex items-start justify-start"><AboutPage /></div>
+      <div id="section-experience" className="snap-start flex items-center justify-center"><Experience /></div>
+      <div id="section-projects" className="snap-start flex flex-col items-center justify-center"><Projects /></div>
+      <div id="section-stack" className="snap-start flex items-center justify-center"><Stack /></div>
+      <div id="section-connect" className="snap-start flex flex-col items-start justify-start p-10"><Connect /></div>
+    </>
+  ) : (
+    <div className="p-6 h-full">
+      {selectedFileId ? (
+        <textarea
+          value={activeFileContent}
+          onChange={handleContentChange}
+          className="w-full h-full bg-[#1e1e1e] text-white p-4 rounded-md border border-gray-700 resize-none focus:outline-none"
+          placeholder="Start typing here..."
+        />
+      ) : (
+        <div className="text-gray-500 h-full flex items-center justify-center">
+          Select a file to start editing
+        </div>
+      )}
+    </div>
+  )}
+</section>
+
       </div>
 
       {/* Toast */}
