@@ -8,6 +8,10 @@ import AboutPage from "../about/page"
 import Projects from "../projects/page"
 import dynamic from "next/dynamic";
 import Connect from "../contact/page"
+import Activities from "../activities/page"
+import {Layout} from "@/components/Layout"
+import Terminal from "@/components/Terminal";
+
 
 import Experience from "../experience/page"
 const Stack = dynamic(() => import("../stack/page"), { ssr: false });
@@ -31,9 +35,10 @@ export default function VaultWorkspacePage() {
   const [folders, setFolders] = useState<FolderItem[]>([
     { id: 'hello', name: 'Hello', open: true, files: [
       { id: 'about', name: 'About' },
-       { id: 'experience', name: 'Experience' },
+      { id: 'experience', name: 'Experience' },
       { id: 'projects', name: 'Projects' },
       { id: 'stack', name: 'Stack' },
+      { id: 'activity', name: 'Activity' },
       { id: 'connect', name: 'Connect' },
     ] }
   ])
@@ -43,6 +48,8 @@ export default function VaultWorkspacePage() {
   const [toast, setToast] = useState<{ show: boolean; text: string }>({ show: false, text: '' })
     const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeFileContent, setActiveFileContent] = useState<string>("")
+  const [showTerminal, setShowTerminal] = useState(false);
+
 
   const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2,9)}`
   const showToast = (text: string, ms = 2500) => {
@@ -82,7 +89,7 @@ export default function VaultWorkspacePage() {
   if (folder?.id === 'hello') {
     const element = document.getElementById(`section-${fileId}`)
     if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  } else {
+  
     setActiveFileContent(file?.content || "")
   }
 }
@@ -112,7 +119,7 @@ export default function VaultWorkspacePage() {
   // Auto-highlight section based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'experience','projects', 'stack', 'connect']
+      const sections = ['about', 'experience','projects', 'stack', 'activity','connect']
       const scrollContainer = document.getElementById('scroll-container')
       if (!scrollContainer) return
       const scrollPosition = scrollContainer.scrollTop + 300
@@ -162,9 +169,25 @@ export default function VaultWorkspacePage() {
       {/* Workspace */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <SideBar isCollapsed={isCollapsed} onToggle={() => setIsCollapsed(!isCollapsed)} />
+        <SideBar
+  isCollapsed={isCollapsed}
+  onToggle={() => setIsCollapsed(!isCollapsed)}
+  onOpenTerminal={() => setShowTerminal(true)}
+/>
 
-        <aside
+       <Layout
+          isCollapsed={isCollapsed}
+          folders={folders}
+          openFolderIds={openFolderIds}
+          selectedFolderId={selectedFolderId}
+          selectedFileId={selectedFileId}
+          addFolder={addFolder}
+          addFile={addFile}
+          toggleFolder={toggleFolder}
+          selectFolder={selectFolder}
+          selectFile={selectFile}
+        />
+        {/* <aside
         className={`${
           isCollapsed ? "w-0 opacity-0" : "w-56 opacity-100"
         } border-r border-border bg-muted/10 overflow-y-auto transition-all duration-300`}
@@ -207,37 +230,20 @@ export default function VaultWorkspacePage() {
             </ul>
           </div>
         </aside>
-        {/* <section className="flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth" id="scroll-container">
-          <div id="section-about" className=" snap-start flex items-start justify-start ">
-            <AboutPage />
-          </div>
-
-           <div id="section-experience" className=" snap-start flex items-center justify-center">
-            <Experience/>
-          </div>
-
-          <div
-        id="section-projects"
-        className="snap-start flex flex-col items-center justify-center "
-      >
-        <Projects />
-      </div>
-
-          <div id="section-stack" className="h-screen snap-start flex items-center justify-center">
-            <Stack />
-          </div>
-          <div id="section-connect" className="h-screen snap-start flex flex-col items-start justify-start p-10">
-           <Connect />
-          </div>
-        </section> */}
-        <section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
-  {selectedFolderId === 'hello' ? (
+        */}
+<section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
+  {showTerminal ? (
+    <div className="h-full p-4">
+      <Terminal />
+    </div>
+  ) : selectedFolderId === "hello" ? (
     <>
       <div id="section-about" className="snap-start flex items-start justify-start"><AboutPage /></div>
-      <div id="section-experience" className="snap-start flex items-center justify-center"><Experience /></div>
-      <div id="section-projects" className="snap-start flex flex-col items-center justify-center"><Projects /></div>
-      <div id="section-stack" className="snap-start flex items-center justify-center"><Stack /></div>
-      <div id="section-connect" className="snap-start flex flex-col items-start justify-start p-10"><Connect /></div>
+      <div id="section-experience" className="snap-start bg-zinc-950 flex items-center justify-center"><Experience /></div>
+      <div id="section-projects" className="snap-start bg-zinc-950 flex flex-col items-center justify-center"><Projects /></div>
+      <div id="section-stack" className="snap-start bg-zinc-950 flex items-center justify-center"><Stack /></div>
+      <div id="section-activity" className="snap-start bg-zinc-950 flex items-center justify-center"><Activities /></div>
+      <div id="section-connect" className="snap-start bg-zinc-950 flex flex-col items-start justify-start"><Connect /></div>
     </>
   ) : (
     <div className="p-6 h-full">
@@ -245,7 +251,7 @@ export default function VaultWorkspacePage() {
         <textarea
           value={activeFileContent}
           onChange={handleContentChange}
-          className="w-full h-full bg-[#1e1e1e] text-white p-4 rounded-md border border-gray-700 resize-none focus:outline-none"
+          className="w-full h-full text-white p-4 rounded-md resize-none focus:outline-none"
           placeholder="Start typing here..."
         />
       ) : (
@@ -256,6 +262,7 @@ export default function VaultWorkspacePage() {
     </div>
   )}
 </section>
+
 
       </div>
 

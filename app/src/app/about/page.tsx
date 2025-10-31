@@ -327,14 +327,124 @@
 //     </div>
 //   );
 // }
+
+
+
+
+
+
+
+// "use client";
+
+// import { motion } from "framer-motion";
+// import Image from "next/image";
+// import { SiYoutubemusic } from "react-icons/si";
+// import  RotatingVinylPlayer  from "@/components/RotatingVinyl";
+
+// export default function About() {
+//   return (
+//     <div className="relative w-full text-gray-200 flex flex-col items-center justify-center overflow-hidden">
+//       {/* === Hero Section with Cover === */}
+//       <motion.div
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//         transition={{ duration: 1 }}
+//         className="relative w-full h-[85vh] sm:h-[90vh] flex items-center justify-center md:justify-start"
+//       >
+//         {/* Background Image */}
+//         <Image
+//           src="/cover.svg"
+//           alt="Cover Background"
+//           fill
+//           priority
+//           className="object-cover object-right md:object-center opacity-90"
+//         />
+//              <div className="relative">
+//       {/* Your about content */}
+//       <RotatingVinylPlayer 
+//         songUrl="/playlist/Duvet.mp3"
+//         songName="Duvet"
+//         artistName="Bôa"
+       
+//       />
+//     </div>
+
+//         {/* === Floating Music Block (top right) === */}
+//         <motion.div
+//           initial={{ opacity: 0, x: 30, y: -10 }}
+//           animate={{ opacity: 1, x: 0, y: 0 }}
+//           transition={{ duration: 0.8, delay: 0.5 }}
+//           className="absolute top-4 right-4 sm:top-8 sm:right-8 md:top-10 md:right-12 z-20"
+//         >
+//           <div className="bg-[#1a1a1a]/70 backdrop-blur-md border border-gray-800 rounded-2xl p-3 sm:p-4 flex items-center justify-between gap-3 sm:gap-4 shadow-lg hover:border-gray-700 transition-all">
+//             <p className="text-gray-300 text-xs sm:text-sm md:text-base font-medium flex flex-row items-center gap-2">
+     
+//               <span>“Duvet” — Bôa</span>
+//             </p>
+//             <a
+//               href="https://music.youtube.com/watch?v=o7fgFaXKVa0"
+//               target="_blank"
+//               rel="noopener noreferrer"
+//               className="text-red-400 hover:text-red-500 transition"
+//               title="Listen on YouTube Music"
+//             >
+//               <SiYoutubemusic className="text-xl sm:text-2xl" />
+//             </a>
+//           </div>
+//         </motion.div>
+
+//         {/* === Text Overlay === */}
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 1.2, delay: 0.2 }}
+//           className="
+//             relative z-10 
+//             w-full 
+//             px-6 sm:px-8 md:px-16 
+//             max-w-4xl 
+//             mt-24 sm:mt-28 md:mt-32 
+//             flex justify-center md:justify-start
+//           "
+//         >
+//           <div className="relative w-full sm:w-[90%] md:w-[80%] p-6 sm:p-8 rounded-xl shadow-xl border border-white/10 bg-black/40 backdrop-blur-md">
+//             <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white drop-shadow-lg mb-4 sm:mb-6">
+//               About Me
+//             </h1>
+
+//             <p className="text-gray-200 text-base sm:text-lg md:text-xl leading-relaxed">
+//               Hey, I’m{" "}
+//               <span className="text-white font-medium">Ananya Dhiman</span>, a
+//               third-year Computer Science student driven by the art of turning
+//               logic into experiences. My world blends{" "}
+//               <span className="text-teal-400">AI</span>, backend systems, and{" "}
+//               <span className="text-purple-400">creative design</span>, shaped by
+//               projects that merge performance with emotion.
+//             </p>
+//           </div>
+//         </motion.div>
+//       </motion.div>
+
+//       {/* === Floating Ambient Dots === */}
+//       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+//         <div className="absolute top-1/4 left-1/3 w-3 h-3 bg-emerald-400 rounded-full blur-lg opacity-40 animate-pulse" />
+//         <div className="absolute top-3/4 right-1/4 w-2 h-2 bg-purple-500 rounded-full blur-md opacity-40 animate-pulse" />
+//         <div className="absolute bottom-1/3 left-1/2 w-2 h-2 bg-blue-400 rounded-full blur-md opacity-40 animate-pulse" />
+//       </div>
+//     </div>
+//   );
+// }
 "use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { SiYoutubemusic } from "react-icons/si";
-import  RotatingVinylPlayer  from "@/components/RotatingVinyl";
+import RotatingVinylPlayer from "@/components/RotatingVinyl";
 
 export default function About() {
+  const accentColor = "#34d399"; // Emerald accent (like Valueye card)
+  const shadowColor = "#059669"; // Darker emerald shadow
+
   return (
     <div className="relative w-full text-gray-200 flex flex-col items-center justify-center overflow-hidden">
       {/* === Hero Section with Cover === */}
@@ -352,41 +462,19 @@ export default function About() {
           priority
           className="object-cover object-right md:object-center opacity-90"
         />
-             <div className="relative">
-      {/* Your about content */}
-      <RotatingVinylPlayer 
-        songUrl="/playlist/Duvet.mp3"
-        songName="Duvet"
-        artistName="Bôa"
+
+        {/* === Vinyl Player === */}
+        <div className="relative">
+          <RotatingVinylPlayer
+            songUrl="/playlist/Duvet.mp3"
+            songName="Duvet"
+            artistName="Bôa"
+          />
+        </div>
+
        
-      />
-    </div>
 
-        {/* === Floating Music Block (top right) === */}
-        <motion.div
-          initial={{ opacity: 0, x: 30, y: -10 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="absolute top-4 right-4 sm:top-8 sm:right-8 md:top-10 md:right-12 z-20"
-        >
-          <div className="bg-[#1a1a1a]/70 backdrop-blur-md border border-gray-800 rounded-2xl p-3 sm:p-4 flex items-center justify-between gap-3 sm:gap-4 shadow-lg hover:border-gray-700 transition-all">
-            <p className="text-gray-300 text-xs sm:text-sm md:text-base font-medium flex flex-row items-center gap-2">
-     
-              <span>“Duvet” — Bôa</span>
-            </p>
-            <a
-              href="https://music.youtube.com/watch?v=o7fgFaXKVa0"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red-400 hover:text-red-500 transition"
-              title="Listen on YouTube Music"
-            >
-              <SiYoutubemusic className="text-xl sm:text-2xl" />
-            </a>
-          </div>
-        </motion.div>
-
-        {/* === Text Overlay === */}
+        {/* === About Me Card === */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -396,23 +484,32 @@ export default function About() {
             w-full 
             px-6 sm:px-8 md:px-16 
             max-w-4xl 
-            mt-24 sm:mt-28 md:mt-32 
-            flex justify-center md:justify-start
+            mt-10 sm:mt-6 md:mt-10
+            flex justify-start md:justify-start
           "
         >
-          <div className="relative w-full sm:w-[90%] md:w-[80%] p-6 sm:p-8 rounded-xl shadow-xl border border-white/10 bg-black/40 backdrop-blur-md">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white drop-shadow-lg mb-4 sm:mb-6">
-              About Me
-            </h1>
+          <div
+            className="relative top-10 bg-gray-950 bg-opacity-10 w-full sm:w-[90%] md:w-[80%] p-6 sm:p-8 rounded-none transition-all duration-200 hover:translate-x-0.5 hover:translate-y-0.5"
+            style={{
+              border: `3px solid white`,
+            
+            }}
+          >
+       
 
-            <p className="text-gray-200 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed">
               Hey, I’m{" "}
-              <span className="text-white font-medium">Ananya Dhiman</span>, a
-              third-year Computer Science student driven by the art of turning
-              logic into experiences. My world blends{" "}
-              <span className="text-teal-400">AI</span>, backend systems, and{" "}
-              <span className="text-purple-400">creative design</span>, shaped by
-              projects that merge performance with emotion.
+              <span style={{ color: accentColor, fontWeight: 600 }}>
+                Ananya Dhiman
+              </span>
+              , a third-year Computer Science student driven by the art of
+              turning logic into experiences. My world blends{" "}
+              <span style={{ color: accentColor }}>AI</span>, backend systems,
+              and{" "}
+              <span style={{ color: "#a78bfa" }}>
+                creative design
+              </span>
+              , shaped by projects that merge performance with emotion.
             </p>
           </div>
         </motion.div>

@@ -216,7 +216,7 @@ export default function ProjectCard({
         }}
         className="relative z-10"
       >
-        <Card className="bg-[#1a1a1a] border-2 border-black hover:border-gray-700 transition-all duration-200 rounded-none shadow-none">
+        <Card className="bg-[#1a1a1a] border-3 border-white hover:border-gray-700 transition-all duration-200 rounded-none shadow-none">
           {/* Image smaller height */}
           <div className="relative w-full h-40 mb-0 rounded-none overflow-hidden border-b-2 border-black">
             {image ? (

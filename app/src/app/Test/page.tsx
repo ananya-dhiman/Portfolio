@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react'
 import Link from 'next/link'
 
-export default function Connect() {
+export  function TerminalComp() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-gray-200 flex flex-col items-center justify-center px-6 py-12">
       {/* Terminal Header */}

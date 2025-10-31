@@ -64,52 +64,46 @@ export default function Projects() {
   ];
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
 
-    const drawDots = () => {
-      const container = document.getElementById("projects-section");
-      const height = container?.scrollHeight || window.innerHeight;
+  const drawDots = () => {
+    const dotSpacing = 40;
+    const dotRadius = 1.5;
+    const primaryColor = "rgb(248,248,255)"; // Tailwind's gray
 
-      canvas.width = window.innerWidth;
-      canvas.height = height;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 0.25;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const dotSpacing = 40;
-      const dotRadius = 2;
-      const primaryColor = "rgb(139, 92, 246)";
-
-      for (let x = 0; x < canvas.width; x += dotSpacing) {
-        for (let y = 0; y < canvas.height; y += dotSpacing) {
-          ctx.beginPath();
-          ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
-          ctx.fillStyle = primaryColor;
-          ctx.globalAlpha = 0.25;
-          ctx.fill();
-        }
+    for (let x = 0; x < canvas.width; x += dotSpacing) {
+      for (let y = 0; y < canvas.height; y += dotSpacing) {
+        ctx.beginPath();
+        ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+        ctx.fillStyle = primaryColor;
+        ctx.fill();
       }
+    }
 
-      ctx.globalAlpha = 1;
-    };
+    ctx.globalAlpha = 1;
+  };
 
-    // Initial draw + resize observer
+  const resizeCanvas = () => {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
     drawDots();
-    window.addEventListener("resize", drawDots);
+  };
 
-    // Observe dynamic content height changes (cards load)
-    const resizeObserver = new ResizeObserver(drawDots);
-    const section = document.getElementById("projects-section");
-    if (section) resizeObserver.observe(section);
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+  return () => window.removeEventListener("resize", resizeCanvas);
+}, []);
 
-    return () => {
-      window.removeEventListener("resize", drawDots);
-      resizeObserver.disconnect();
-    };
-  }, []);
 
   return (
     <div
@@ -124,7 +118,7 @@ export default function Projects() {
 
       {/* Foreground content */}
       <div className="relative z-10 max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-12 text-center text-gray-100">
+        <h1 className="text-4xl font-bold mt-5 mb-15 text-center text-gray-100">
           Projects
         </h1>
 
