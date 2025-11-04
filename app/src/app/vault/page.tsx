@@ -11,7 +11,7 @@ import Connect from "../contact/page"
 import Activities from "../activities/page"
 import {Layout} from "@/components/Layout"
 import Terminal from "@/components/Terminal";
-
+import TabBar from "@/components/TabBar"
 
 import Experience from "../experience/page"
 const Stack = dynamic(() => import("../stack/page"), { ssr: false });
@@ -42,6 +42,11 @@ export default function VaultWorkspacePage() {
       { id: 'connect', name: 'Connect' },
     ] }
   ])
+  const [tabs, setTabs] = useState<{ id: string; name: string }[]>([
+  { id: 'about', name: 'About' }
+]);
+const [activeTabId, setActiveTabId] = useState<string | null>('about');
+
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>('hello')
   const [selectedFileId, setSelectedFileId] = useState<string | null>('about')
   const [openFolderIds, setOpenFolderIds] = useState<Record<string, boolean>>({ hello: true })
@@ -52,7 +57,7 @@ export default function VaultWorkspacePage() {
 
 
   const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2,9)}`
-  const showToast = (text: string, ms = 2500) => {
+  const showToast = (text: string, ms = 4000) => {
     setToast({ show: true, text })
     window.setTimeout(() => setToast({ show: false, text: '' }), ms)
   }
@@ -82,9 +87,17 @@ export default function VaultWorkspacePage() {
 
   const selectFile = (fileId: string) => {
   setSelectedFileId(fileId)
-
+  setActiveTabId(fileId);
   const folder = folders.find(f => f.id === selectedFolderId)
   const file = folder?.files.find(f => f.id === fileId)
+
+   setTabs(prev => {
+    if (!prev.find(t => t.id === fileId)) {
+      return [...prev, { id: fileId, name: file?.name || "Untitled" }];
+    }
+    return prev;
+  });
+
 
   if (folder?.id === 'hello') {
     const element = document.getElementById(`section-${fileId}`)
@@ -93,6 +106,74 @@ export default function VaultWorkspacePage() {
     setActiveFileContent(file?.content || "")
   }
 }
+
+
+    // Tab component logic
+
+const onTabSelect = (tabId: string) => {
+  const helloFolder = folders.find(f => f.id === "hello");
+  const fileFolder = folders.find(f =>
+    f.files.some(file => file.id === tabId)
+  );
+
+  setActiveTabId(tabId);
+
+  if (fileFolder && fileFolder.id !== "hello") {
+    // ✅ It's a normal file
+    setSelectedFolderId(fileFolder.id);
+    const file = fileFolder.files.find(file => file.id === tabId);
+    setSelectedFileId(tabId);
+    setActiveFileContent(file?.content || "");
+  } else {
+    // ✅ It's a Hello section tab
+    setSelectedFolderId("hello");
+    setSelectedFileId(null); // No file selected
+    setActiveFileContent(""); // Remove editor content
+
+
+    const element = document.getElementById(`section-${tabId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+};
+
+
+const onTabClose = (tabId: string) => {
+  setTabs(prev => prev.filter(t => t.id !== tabId));
+  if (activeTabId === tabId) {
+    const nextTab = tabs.find(t => t.id !== tabId);
+    setActiveTabId(nextTab ? nextTab.id : null);
+  }
+};
+
+const onNewTab = () => {
+  if (!selectedFolderId) return showToast("Select a folder first");
+
+
+  if (selectedFolderId === "hello")
+    return showToast("Cannot add files to the default Hello page");
+
+  const newFile: FileItem = {
+    id: id("file"),
+    name: `File ${tabs.length + 1}`,
+    content: ""
+  };
+
+  setFolders(prev =>
+    prev.map(f =>
+      f.id === selectedFolderId
+        ? { ...f, files: [...f.files, newFile] }
+        : f
+    )
+  );
+
+  setTabs(prev => [...prev, { id: newFile.id, name: newFile.name }]);
+  setActiveTabId(newFile.id);
+  setSelectedFileId(newFile.id);
+};
+
+
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
   const newContent = e.target.value
@@ -146,7 +227,7 @@ export default function VaultWorkspacePage() {
   return (
     <div className="bg-[#121212] text-white h-screen flex flex-col">
       {/* Header */}
-      <div className="border-b border-border">
+      {/* <div className="border-b border-border">
         <div className="flex items-center gap-4 px-4 py-2">
           <div className="flex space-x-2 mb-6 mt-5">
             <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />   
@@ -164,7 +245,16 @@ export default function VaultWorkspacePage() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <TabBar
+  tabs={tabs}
+  activeTabId={activeTabId}
+  onTabSelect={onTabSelect}
+  onTabClose={onTabClose}
+  onNewTab={onNewTab}
+/>
+
 
       {/* Workspace */}
       <div className="flex flex-1 overflow-hidden">
@@ -233,7 +323,7 @@ export default function VaultWorkspacePage() {
         */}
 <section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
   {showTerminal ? (
-    <div className="h-full p-4">
+    <div className="w-full h-full overflow-hidden">
       <Terminal />
     </div>
   ) : selectedFolderId === "hello" ? (
@@ -247,7 +337,7 @@ export default function VaultWorkspacePage() {
     </>
   ) : (
     <div className="p-6 h-full">
-      {selectedFileId ? (
+      {activeTabId ? (
         <textarea
           value={activeFileContent}
           onChange={handleContentChange}

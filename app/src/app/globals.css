@@ -119,6 +119,30 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+
+.terminal-trex-canvas .runner-canvas {
+
+  filter: grayscale(100%) brightness(50%) invert(100%) sepia(100%) saturate(500%) hue-rotate(90deg) contrast(150%);
+  background-color: #000000 !important;
+  border: 1px dashed #00FF00;
+ 
+  font-family: "Monaco", "Lucida Console", monospace !important;
+}
+
+/* Hide the static elements that are part of the original HTML/CSS */
+.terminal-trex-canvas .icon-offline,
+.terminal-trex-canvas #main-frame-notchrome {
+  display: none !important;
+}
+
+/* Force text and links to the terminal color where necessary */
+.terminal-trex-canvas h1,
+.terminal-trex-canvas h2,
+.terminal-trex-canvas p,
+.terminal-trex-canvas a {
+  color: #00FF00 !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

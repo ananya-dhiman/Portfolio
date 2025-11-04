@@ -151,9 +151,9 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Circle, Heart, ExternalLink } from "lucide-react";
+import { CheckCircle2, Circle, Heart, ExternalLink,VideoIcon } from "lucide-react";
 import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
+import { hover, motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import React from "react";
 import { FaGithub } from "react-icons/fa";
@@ -167,6 +167,7 @@ interface ProjectCardProps {
   shadowColor?: string;
   githubLink?: string;
   liveLink?: string;
+  video?:string;
 }
 
 export default function ProjectCard({
@@ -178,6 +179,7 @@ export default function ProjectCard({
   shadowColor = "#00BFFF",
   githubLink,
   liveLink,
+  video
 }: ProjectCardProps) {
   const [liked, setLiked] = useState(false);
   const controls = useAnimation();
@@ -248,9 +250,26 @@ export default function ProjectCard({
                     href={githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border border-black p-1 bg-white hover:bg-blue-100"
+                      style={{ "--bg": shadowColor } as React.CSSProperties}
+  className="border border-black p-1 bg-white transition-colors
+             hover:[background-color:var(--bg)]"
                   >
-                    <FaGithub className="w-4 h-4 text-black" />
+                    <FaGithub className="w-4 h-4 text-black cursor-pointer" />
+                  </a>
+                )}
+                  {video && (
+                  <a
+                  
+                    href={liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                     style={{ "--bg": shadowColor } as React.CSSProperties}
+  className="border border-black p-1 bg-white transition-colors
+             hover:[background-color:var(--bg)]"
+                    
+                  
+                  >
+                    <VideoIcon className="w-4 h-4 text-black cursor-pointer" />
                   </a>
                 )}
                 {liveLink && (
@@ -258,11 +277,14 @@ export default function ProjectCard({
                     href={liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border border-black p-1 bg-white hover:bg-green-100"
+                    style={{ "--bg": shadowColor } as React.CSSProperties}
+  className="border border-black p-1 bg-white transition-colors
+             hover:[background-color:var(--bg)]"
                   >
-                    <ExternalLink className="w-4 h-4 text-black" />
+                    <ExternalLink className="w-4 h-4 text-black cursor-pointer" />
                   </a>
                 )}
+              
               </div>
             </div>
 
@@ -297,7 +319,7 @@ export default function ProjectCard({
                   variant="ghost"
                   size="icon"
                   onClick={() => setLiked((s) => !s)}
-                  className="hover:bg-transparent"
+                  className="hover:bg-transparent "
                 >
                   <Heart
                     className={`w-4 h-4 transition-colors duration-200 ${

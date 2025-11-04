@@ -14,9 +14,10 @@ export default function Projects() {
         "A one-stop platform that generates concise vibe reports based on atmosphere, trends, and reviews using RAG.",
       tech: ["React", "Node.js", "MongoDB", "LangChain"],
       completed: true,
-      githubLink: "L",
+      githubLink: "https://github.com/ananya-dhiman/Vibe-Scape",
       shadowColor: "#39FF14",
-      liveLink: "https://vibescape.example.com",
+      liveLink: "https://vibe-scape-kappa.vercel.app/",
+      video:"https://www.youtube.com/watch?v=4BcVZ33jgdE"
     },
     {
       name: "AI-THLETE",
@@ -25,9 +26,9 @@ export default function Projects() {
         "An AI-powered fitness assessment app with 7+ automated physical tests using TensorFlow Lite for real-time, on-device analysis.",
       tech: ["Flutter", "Next.js", "TensorFlow Lite"],
       completed: true,
-      githubLink: "L",
+      githubLink: "https://github.com/ananya-dhiman/AI-Thlete-Frontend",
       shadowColor: "#FF6F61",
-      liveLink: "https://vibescape.example.com",
+      video:"https://youtu.be/LwGMCFHdbeI"
     },
     {
       name: "Fasal Forecast",
@@ -36,6 +37,9 @@ export default function Projects() {
         "A crop disease prediction app designed to help farmers diagnose plant illnesses with a gamified, multi-platform interface.",
       tech: ["React Native", "Flask", "TensorFlow", "Firebase"],
       completed: true,
+         shadowColor: "#FF6F61",
+      githubLink:"https://github.com/ananya-dhiman/Fasal-Forecast",
+      video:"https://youtu.be/BSjhfsoY2yo"
     },
     {
       name: "Blog Universe",
@@ -44,6 +48,9 @@ export default function Projects() {
         "A MERN-powered platform for bloggers to easily create personal websites, publish posts, and engage with readers.",
       tech: ["MongoDB", "Express.js", "React", "Node.js"],
       completed: true,
+         shadowColor: "#FF6F61",
+      githubLink:"https://github.com/ananya-dhiman/Blog-Universe",
+      liveLink:"https://blog-universe-olive.vercel.app/"
     },
     {
       name: "F-Shield",
@@ -52,6 +59,9 @@ export default function Projects() {
         "A secure transaction monitoring system built for small businesses, featuring robust authentication and real-time anomaly detection.",
       tech: ["React", "Node.js", "MongoDB", "Firebase"],
       completed: true,
+         shadowColor: "#FF6F61",
+        githubLink:"https://github.com/Raunakg2005/F-Shield",
+      liveLink:"https://f-shield.vercel.app/"
     },
     {
       name: "CIS Portal",
@@ -60,6 +70,8 @@ export default function Projects() {
         "A role-based academic and placement management system converting Excel data into structured records for streamlined college administration.",
       tech: ["Node.js", "Express.js", "MongoDB"],
       completed: true,
+       shadowColor: "#FF6F61",
+      
     },
   ];
 
