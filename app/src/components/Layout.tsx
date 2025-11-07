@@ -149,8 +149,8 @@
 //         <div className="p-2">
 //           <ul className="space-y-2 text-sm">
 //             <li className="flex items-center justify-center gap-4 p-3 ">
-//               <button onClick={addFolder} className="hover:text-green-400 text-neutral-400" title="New folder"><FolderPlus /></button>
-//               <button onClick={addFile} className="hover:text-green-400 text-neutral-400" title="New file"><CirclePlus /></button>
+//               <button onClick={addFolder} className="hover:text-primary text-neutral-400" title="New folder"><FolderPlus /></button>
+//               <button onClick={addFile} className="hover:text-primary text-neutral-400" title="New file"><CirclePlus /></button>
 //             </li>
 //             {folders.map(folder => {
 //               const isOpen = !!openFolderIds[folder.id]
@@ -275,14 +275,14 @@ export function Layout({
               <li className="flex items-center justify-center gap-4 p-3">
                 <button
                   onClick={addFolder}
-                  className="hover:text-green-400 text-neutral-400"
+                  className="hover:text-primary text-neutral-400"
                   title="New folder"
                 >
                   <FolderPlus />
                 </button>
                 <button
                   onClick={addFile}
-                  className="hover:text-green-400 text-neutral-400"
+                  className="hover:text-primary text-neutral-400"
                   title="New file"
                 >
                   <CirclePlus />

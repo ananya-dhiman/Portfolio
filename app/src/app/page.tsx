@@ -1,8 +1,21 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { useLayoutEffect } from "react"; 
 import { VaultSection } from "@/components/vault-section";
 import Link from "next/link";
-
+import Color from "color";
 export default function Page() {
+  useLayoutEffect(() => {
+  const savedColor = localStorage.getItem("primaryColor");
+  if (savedColor) {
+    const base = Color(savedColor);
+    document.documentElement.style.setProperty("--primary", savedColor);
+    document.documentElement.style.setProperty("--color-primary", savedColor);
+    document.documentElement.style.setProperty("--primary-light", base.lighten(0.25).hsl().string());
+    document.documentElement.style.setProperty("--primary-dark", base.darken(0.25).hsl().string());
+  }
+}, []);
+
   return (
     <main className="relative min-h-[100dvh] bg-background text-foreground overflow-hidden">
       {/* Logo */}
@@ -19,10 +32,10 @@ export default function Page() {
             {"Version 3.0 — Now with 23% more clarity."}
           </p>
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-10 flex justify-center">
             <Link href="/vault">
             <Button
-              className="bg-primary text-primary-foreground hover:bg-primary/90 px-6"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 cursor-pointer"
               size="lg"
             >
               {"Quick Start"}
@@ -31,16 +44,16 @@ export default function Page() {
           </div>
         </header>
 
-        <section aria-label="Main actions" className="mt-14 space-y-6">
+        <section aria-label="Main actions" className="mt-16 space-y-6">
           <VaultSection
             title="ACCESS PORTFOLIO"
-            description="The how what and why"
+            description="See my work"
             actionLabel="Start"
             actionStyle="primary"
           />
           <VaultSection
             title="RESUME"
-            description="The how what and why"
+            description="View my journey"
             actionLabel="Load"
             actionStyle="secondary"
           />

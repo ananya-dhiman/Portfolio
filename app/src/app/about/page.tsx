@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { SiYoutubemusic } from "react-icons/si";
 import RotatingVinylPlayer from "@/components/RotatingVinyl";
+type AboutProps = {
+  mobVinylOpen?: boolean; 
+  setMobVinylOpen?: (value: boolean) => void;
+};
 
-export default function About() {
+export default function About({mobVinylOpen, setMobVinylOpen}:AboutProps) {
   const accentColor = "#34d399"; // Emerald accent (like Valueye card)
   const shadowColor = "#059669"; // Darker emerald shadow
 
@@ -34,10 +38,11 @@ export default function About() {
             songUrl="/playlist/Duvet.mp3"
             songName="Duvet"
             artistName="Bôa"
+            mobVinylOpen={mobVinylOpen}
+            setMobVinylOpen={setMobVinylOpen}
           />
         </div>
 
-       
 
         {/* === About Me Card === */}
         <motion.div
@@ -64,14 +69,8 @@ export default function About() {
              
                 Ananya Dhiman
            
-              , a third-year Computer Science student driven by the art of
-              turning logic into experiences. My world blends{" "}
-         AI, backend systems,
-              and{" "}
-           
-                creative design
-           
-              , shaped by projects that merge performance with emotion.
+              , a third-year Computer Science student at KJ Somaiya School Of Engineering. 
+              <span>Just building and breaking things, mostly.</span>
             </p>
           </div>
         </motion.div>

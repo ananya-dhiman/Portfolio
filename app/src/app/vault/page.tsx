@@ -1,7 +1,7 @@
 
 'use client'
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import {useLayoutEffect, useEffect, useState } from "react"
 import SideBar from "@/components/SideBar"
 import { X, Plus, CirclePlus, FolderPlus, ChevronRight, ChevronDown } from "lucide-react"
 import AboutPage from "../about/page"
@@ -12,10 +12,10 @@ import Activities from "../activities/page"
 import {Layout} from "@/components/Layout"
 import Terminal from "@/components/Terminal";
 import TabBar from "@/components/TabBar"
-
+import Settings from "@/components/Settings"
 import Experience from "../experience/page"
 const Stack = dynamic(() => import("../stack/page"), { ssr: false });
-
+import Color from "color"
 type FileItem = {
   id: string
   name: string
@@ -29,9 +29,26 @@ type FolderItem = {
   open?: boolean
 }
 
+
+
 export default function VaultWorkspacePage() {
+  useLayoutEffect(() => {
+  const savedColor = localStorage.getItem("primaryColor");
+  if (savedColor) {
+    const base = Color(savedColor);
+    document.documentElement.style.setProperty("--primary", savedColor);
+    document.documentElement.style.setProperty("--color-primary", savedColor);
+    document.documentElement.style.setProperty("--primary-light", base.lighten(0.25).hsl().string());
+    document.documentElement.style.setProperty("--primary-dark", base.darken(0.25).hsl().string());
+  }
+}, []);
 
 
+
+
+
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [mobVinylOpen, setMobVinylOpen] = useState(false);
   const [folders, setFolders] = useState<FolderItem[]>([
     { id: 'hello', name: 'Hello', open: true, files: [
       { id: 'about', name: 'About' },
@@ -83,9 +100,12 @@ const [activeTabId, setActiveTabId] = useState<string | null>('about');
     setOpenFolderIds(prev => ({ ...prev, [folderId]: !prev[folderId] }))
   }
 
-  const selectFolder = (folderId: string) => setSelectedFolderId(folderId)
-
+  const selectFolder = (folderId: string) => {
+  setShowTerminal(false);
+  setSelectedFolderId(folderId);
+};
   const selectFile = (fileId: string) => {
+    setShowTerminal(false);
   setSelectedFileId(fileId)
   setActiveTabId(fileId);
   const folder = folders.find(f => f.id === selectedFolderId)
@@ -111,6 +131,7 @@ const [activeTabId, setActiveTabId] = useState<string | null>('about');
     // Tab component logic
 
 const onTabSelect = (tabId: string) => {
+  setShowTerminal(false);
   const helloFolder = folders.find(f => f.id === "hello");
   const fileFolder = folders.find(f =>
     f.files.some(file => file.id === tabId)
@@ -263,6 +284,10 @@ const onNewTab = () => {
   isCollapsed={isCollapsed}
   onToggle={() => setIsCollapsed(!isCollapsed)}
   onOpenTerminal={() => setShowTerminal(true)}
+   onSettingsOpen={() => setSettingsOpen(true)}
+   onMobVinylOpen={() => setMobVinylOpen(true)}
+   setMobVinylOpen={setMobVinylOpen}
+
 />
 
        <Layout
@@ -277,50 +302,7 @@ const onNewTab = () => {
           selectFolder={selectFolder}
           selectFile={selectFile}
         />
-        {/* <aside
-        className={`${
-          isCollapsed ? "w-0 opacity-0" : "w-56 opacity-100"
-        } border-r border-border bg-muted/10 overflow-y-auto transition-all duration-300`}
-      >
-
-          <div className="p-2">
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center justify-center gap-4 p-3 ">
-                <button onClick={addFolder} className="hover:text-green-400 text-neutral-400" title="New folder"><FolderPlus /></button>
-                <button onClick={addFile} className="hover:text-green-400 text-neutral-400" title="New file"><CirclePlus /></button>
-              </li>
-              {folders.map(folder => {
-                const isOpen = !!openFolderIds[folder.id]
-                const isSelected = selectedFolderId === folder.id
-                return (
-                  <li key={folder.id}>
-                    <div className={`flex items-center px-2 py-2 ${isSelected ? 'bg-muted/30' : ''}`}>
-                      <button onClick={() => { toggleFolder(folder.id); selectFolder(folder.id) }} className="flex items-center gap-2">
-                        {isOpen ? <ChevronDown /> : <ChevronRight />}
-                      </button>
-                      <button onClick={() => selectFolder(folder.id)} className="ml-2 text-left w-full">{folder.name}</button>
-                    </div>
-                    {isOpen && folder.files.length > 0 && (
-                      <ul>
-                        {folder.files.map(f => (
-                          <li key={f.id}>
-                            <button
-                              className={`block rounded-md px-3 py-2 mt-2 ml-6 hover:bg-muted/20 w-35 text-left ${selectedFileId === f.id ? 'bg-muted/30' : ''}`}
-                              onClick={() => selectFile(f.id)}
-                            >
-                              {f.name}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </aside>
-        */}
+       
 <section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
   {showTerminal ? (
     <div className="w-full h-full overflow-hidden">
@@ -328,7 +310,7 @@ const onNewTab = () => {
     </div>
   ) : selectedFolderId === "hello" ? (
     <>
-      <div id="section-about" className="snap-start flex items-start justify-start"><AboutPage /></div>
+      <div id="section-about" className="snap-start flex items-start justify-start"><AboutPage mobVinylOpen={mobVinylOpen} setMobVinylOpen={setMobVinylOpen} /></div>
       <div id="section-experience" className="snap-start bg-zinc-950 flex items-center justify-center"><Experience /></div>
       <div id="section-projects" className="snap-start bg-zinc-950 flex flex-col items-center justify-center"><Projects /></div>
       <div id="section-stack" className="snap-start bg-zinc-950 flex items-center justify-center"><Stack /></div>
@@ -364,6 +346,8 @@ const onNewTab = () => {
           </div>
         </div>
       )}
+
+        <Settings isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   )
 }

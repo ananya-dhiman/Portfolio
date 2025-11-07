@@ -85,7 +85,7 @@ export  function TerminalComp() {
             ➜  ~ <span className="text-gray-300">status</span>
           </p>
           <motion.p
-            className="text-green-400"
+            className="text-primary"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}

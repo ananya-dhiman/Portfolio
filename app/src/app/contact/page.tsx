@@ -157,10 +157,10 @@ export default function ContactPage() {
           </div>
 
           {/* Submit */}
-          <div className="flex justify-center md:justify-start">
+          <div className="flex justify-center md:justify-center">
             <button
               type="submit"
-              className="mt-8 sm:mt-10 bg-primary hover:bg-primary-foreground transition-all text-white text-base sm:text-lg px-8 py-3 rounded-xl shadow-md"
+              className="mt-8 w-65 sm:mt-10 bg-primary hover:bg-primary/80 transition-all text-white text-base sm:text-lg px-8 py-3 rounded-sm shadow-md"
             >
               {sent ? "Sent" : "Send"}
             </button>

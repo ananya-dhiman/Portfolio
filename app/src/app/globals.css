@@ -46,7 +46,9 @@
   --card-foreground: oklch(0.985 0 0);
 
   /* Primary = emerald/green for CTAs */
-  --primary: oklch(63.201% 0.20612 141.777); /* green */
+  --primary: oklch(87.075% 0.28263 142.439); /* green */
+   --primary-light: oklch(58.985% 0.19831 142.337); /* ✅ slightly lighter */
+  --primary-dark: oklch(80.562% 0.19968 148.069);
   --primary-foreground: oklch(0.205 0 0); /* on green: near-black */
 
   /* Neutral surfaces and borders */
@@ -161,3 +163,51 @@
   }
 }
 
+
+@layer utilities {
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes loading {
+    0% {
+      width: 0%;
+      transform: translateX(0);
+    }
+    50% {
+      width: 70%;
+    }
+    100% {
+      width: 100%;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-loading {
+    animation: loading 2s ease-in-out infinite;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.6s ease-in forwards;
+  }
+}

@@ -22,7 +22,7 @@ export default function TabBar({
   onNewTab
 }: TabBarProps) {
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-border z-1000 bg-black">
       <div className="flex items-center gap-4 px-4 py-2">
         {/* Mac-style traffic lights */}
         <div className="flex space-x-2 mb-6 mt-5">
@@ -32,7 +32,7 @@ export default function TabBar({
         </div>
 
         {/* Tabs */}
-        <div className="ml-50 flex items-center gap-2 text-sm overflow-x-auto">
+        <div className="ml-10 flex items-center gap-2 text-sm overflow-x-auto">
           {tabs.map(tab => (
             <div
               key={tab.id}
