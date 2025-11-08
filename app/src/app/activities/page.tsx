@@ -1,9 +1,10 @@
 
 "use client";
 
-import { useLayoutEffect,useState, useEffect } from "react";
-import { Zap, Code, Award, Coffee, Trophy, Lightbulb, Camera } from "lucide-react";
+import { useLayoutEffect } from "react";
+import { Zap, Code, Award, Coffee, Trophy} from "lucide-react";
 import Color from "color";
+
 const achievementCards = [
   {
     icon: Trophy,
@@ -55,30 +56,16 @@ export default function Activities() {
     document.documentElement.style.setProperty("--primary-dark", base.darken(0.25).hsl().string());
   }
 }, []);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+ 
 
-  useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouse);
-    return () => window.removeEventListener("mousemove", handleMouse);
-  }, []);
+ 
 
   return (
     <section className="relative w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-10 overflow-hidden">
       {/* Animated grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
-      {/* Spotlight effect */}
-      {/* <div
-        className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-300"
-        style={{
-          background: "radial-gradient(circle, var(--primary-light) 0%, transparent 70%)",
-          left: mousePos.x - 192,
-          top: mousePos.y - 192,
-        }}
-      /> */}
+  
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
@@ -161,13 +148,14 @@ export default function Activities() {
         </div>
 
         {/* Cube Image */}
-        <div className="flex justify-center items-center mt-8 sm:mt-12">
-          <img
+        {/* <div className="flex justify-center items-center mt-8 sm:mt-12">
+          <Image
             src="/cube2.gif"
             alt="Spinning Cube"
+        
             className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[275px] lg:h-[275px] object-cover rounded-none"
           />
-        </div>
+        </div> */}
       </div>
 
       <style jsx>{`

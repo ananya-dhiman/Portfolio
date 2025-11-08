@@ -3,7 +3,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { SiYoutubemusic } from "react-icons/si";
 import RotatingVinylPlayer from "@/components/RotatingVinyl";
 type AboutProps = {
   mobVinylOpen?: boolean; 
@@ -11,8 +10,8 @@ type AboutProps = {
 };
 
 export default function About({mobVinylOpen, setMobVinylOpen}:AboutProps) {
-  const accentColor = "#34d399"; // Emerald accent (like Valueye card)
-  const shadowColor = "#059669"; // Darker emerald shadow
+  // const accentColor = "#34d399"; // Emerald accent (like Valueye card)
+  // const shadowColor = "#059669"; // Darker emerald shadow
 
   return (
     <div className="relative w-full text-gray-200 flex flex-col items-center justify-center overflow-hidden">

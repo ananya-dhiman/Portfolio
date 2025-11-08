@@ -42,8 +42,8 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen w-full text-gray-200 flex flex-col items-center justify-center px-1 sm:px-10 md:px-16 py-4 sm:py-20 md:py-10 font-mono ">
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-28">
+    <main className="min-h-screen w-full text-gray-200 flex flex-col items-center justify-center px-1 sm:px-30 md:px-16 py-4 sm:py-20 md:py-10 font-mono ">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 px-10 md:gap-28">
         {/* === LEFT SECTION === */}
         <div className="flex flex-col justify-center space-y-8 sm:space-y-10 text-center md:text-left">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold text-gray-100 leading-tight">

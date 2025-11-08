@@ -1,9 +1,9 @@
 
 'use client'
-import Link from "next/link"
+
 import {useLayoutEffect, useEffect, useState } from "react"
 import SideBar from "@/components/SideBar"
-import { X, Plus, CirclePlus, FolderPlus, ChevronRight, ChevronDown } from "lucide-react"
+
 import AboutPage from "../about/page"
 import Projects from "../projects/page"
 import dynamic from "next/dynamic";
@@ -132,7 +132,7 @@ const [activeTabId, setActiveTabId] = useState<string | null>('about');
 
 const onTabSelect = (tabId: string) => {
   setShowTerminal(false);
-  const helloFolder = folders.find(f => f.id === "hello");
+  //const helloFolder = folders.find(f => f.id === "hello");
   const fileFolder = folders.find(f =>
     f.files.some(file => file.id === tabId)
   );
@@ -247,26 +247,7 @@ const onNewTab = () => {
 
   return (
     <div className="bg-[#121212] text-white h-screen flex flex-col">
-      {/* Header */}
-      {/* <div className="border-b border-border">
-        <div className="flex items-center gap-4 px-4 py-2">
-          <div className="flex space-x-2 mb-6 mt-5">
-            <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />   
-            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />   
-            <div className="w-3 h-3 rounded-full bg-[#27c93f]" />   
-          </div>
-
-          <div className="ml-50 flex items-center gap-2 text-sm">
-            <div className="flex items-center h-12 w-75 gap-5 rounded-md border border-border px-3 justify-between">
-              <span>New Tab</span>
-              <button type="button" className="ml-2 text-muted-foreground hover:text-foreground"><X /></button>
-            </div>
-            <button type="button" className="rounded-md h-12 px-2 text-muted-foreground hover:text-foreground">
-              <Plus />
-            </button>
-          </div>
-        </div>
-      </div> */}
+     
 
       <TabBar
   tabs={tabs}

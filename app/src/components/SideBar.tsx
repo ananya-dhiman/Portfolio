@@ -2,8 +2,8 @@
   
 "use client";
 
-import { PanelLeft, Workflow, LayoutDashboard, Terminal, HelpCircle, Settings,Disc } from "lucide-react";
-import Link from "next/link";
+import { PanelLeft, Terminal, Settings,Disc } from "lucide-react";
+
 
 export default function SideBar({
   isCollapsed,
@@ -11,7 +11,7 @@ export default function SideBar({
   onOpenTerminal,
   onSettingsOpen,
   onMobVinylOpen,
-  setMobVinylOpen 
+  
   
 }: {
   isCollapsed: boolean;

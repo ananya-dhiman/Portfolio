@@ -251,10 +251,9 @@
 //   );
 // }
 
-//!Neo brutal
+
 "use client";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+
 import { Code, Palette, Server, Lightbulb } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { ExperienceCard } from "@/components/ExperienceCard";

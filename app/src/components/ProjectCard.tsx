@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Circle, Heart, ExternalLink,VideoIcon } from "lucide-react";
 import Image from "next/image";
-import { hover, motion, useAnimation } from "framer-motion";
+import {  motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import React from "react";
 import { FaGithub } from "react-icons/fa";

@@ -698,17 +698,15 @@ interface Song {
 }
 
 interface RotatingVinylPlayerProps {
-  songUrl: string;
-  songName: string;
-  artistName: string;
+  songUrl?: string;
+  songName?: string;
+  artistName?: string;
   mobVinylOpen?: boolean;
   setMobVinylOpen?: (value: boolean) => void;
 }
 
 const RotatingVinylPlayer: React.FC<RotatingVinylPlayerProps> = ({
-   songUrl="/playlist/Duvet.mp3",
-            songName="Duvet",
-            artistName="Bôa",
+
   mobVinylOpen = false,
   setMobVinylOpen,
 }) => {

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, KeyboardEvent, useEffect } from "react";
-import { ChevronRight, Cpu, HardDrive, Wifi, Clock } from "lucide-react";
+import { ChevronRight, Wifi, Clock } from "lucide-react";
 
 export default function Terminal() {
   const [input, setInput] = useState("");
@@ -87,13 +87,34 @@ Browser:     ${userAgent.split(")")[0].replace("(", "")}
   break;
 
       case "stats":
+                 
+ type NavigatorWithExtras = Navigator & {
+  deviceMemory?: number;
+  connection?: {
+    effectiveType?: string;
+  };
+  mozConnection?: {
+    effectiveType?: string;
+  };
+  webkitConnection?: {
+    effectiveType?: string;
+  };
+};
         const getSystemStats = () => {
-          const nav = navigator as any;
-          const memory = nav.deviceMemory || 4;
-          const cores = nav.hardwareConcurrency || 4;
-          const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
-          const connectionType = connection?.effectiveType || '4g';
-          const platform = nav.platform || 'Unknown';
+
+
+
+  const nav = navigator as NavigatorWithExtras;
+
+  
+
+        
+  const memory = nav.deviceMemory ?? 4;
+  const cores = nav.hardwareConcurrency ?? 4;
+  const connection =
+    nav.connection || nav.mozConnection || nav.webkitConnection;
+  const connectionType = connection?.effectiveType ?? "4g";
+  const platform = nav.platform ?? "Unknown";
           
           const uptimeMs = performance.now();
           const uptimeHours = Math.floor(uptimeMs / (1000 * 60 * 60));
