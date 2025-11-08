@@ -8,7 +8,7 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "Ananya's Vault",
-  description: "Obsidian-themed quick start hub",
+  description: "Obsidian Themed Portfolio",
   generator: "v0.app",
 }
 
