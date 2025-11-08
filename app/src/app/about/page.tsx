@@ -83,6 +83,6 @@ export default function AboutContent({mobVinylOpen, setMobVinylOpen}:AboutProps)
     </div>
   );
 }
-export function About() {
+export function AboutPage() {
   return <AboutContent />;
 }
