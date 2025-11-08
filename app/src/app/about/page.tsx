@@ -10,8 +10,7 @@ type AboutProps = {
 };
 
 export default function About({mobVinylOpen, setMobVinylOpen}:AboutProps) {
-  // const accentColor = "#34d399"; // Emerald accent (like Valueye card)
-  // const shadowColor = "#059669"; // Darker emerald shadow
+ 
 
   return (
     <div className="relative w-full text-gray-200 flex flex-col items-center justify-center overflow-hidden">
