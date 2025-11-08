@@ -1,4 +1,4 @@
 import AboutContent from "@/components/AboutContent" 
-export function AboutPage() {
+export default function AboutPage() {
   return <AboutContent />;
 }
