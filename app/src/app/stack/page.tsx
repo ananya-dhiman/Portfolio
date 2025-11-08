@@ -1,11 +1,14 @@
 
 'use client';
-import StackContent from "@/components/StackContent";
+import dynamic from 'next/dynamic';
+
+
+const Stackg = dynamic(() => import('@/components/StackContent'), { ssr: false });
 export default function Stack() {
   
 
   return (
-    <StackContent/>
+    <Stackg/>
     
   );
 }
