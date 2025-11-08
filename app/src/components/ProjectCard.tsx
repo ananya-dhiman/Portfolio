@@ -112,7 +112,7 @@ export default function ProjectCard({
                   {video && (
                   <a
                   
-                    href={liveLink}
+                    href={video}
                     target="_blank"
                     rel="noopener noreferrer"
                      style={{ "--bg": shadowColor } as React.CSSProperties}
