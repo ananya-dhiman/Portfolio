@@ -9,7 +9,7 @@ type AboutProps = {
   setMobVinylOpen?: (value: boolean) => void;
 };
 
-export default function About({mobVinylOpen, setMobVinylOpen}:AboutProps) {
+export default function AboutContent({mobVinylOpen, setMobVinylOpen}:AboutProps) {
  
 
   return (
@@ -82,4 +82,7 @@ export default function About({mobVinylOpen, setMobVinylOpen}:AboutProps) {
       </div>
     </div>
   );
+}
+export function About() {
+  return <AboutContent />;
 }
