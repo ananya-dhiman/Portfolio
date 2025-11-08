@@ -284,7 +284,7 @@ const onNewTab = () => {
           selectFile={selectFile}
         />
        
-<section className="flex-1 overflow-y-auto scroll-smooth" id="scroll-container">
+<section className="flex-1 overflow-y-auto scroll-smooth overflow-x-hidden" id="scroll-container">
   {showTerminal ? (
     <div className="w-full h-full overflow-hidden">
       <Terminal />

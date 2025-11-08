@@ -145,6 +145,10 @@
   color: #00FF00 !important;
 }
 
+::selection {
+  background: var(--primary); 
+
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
