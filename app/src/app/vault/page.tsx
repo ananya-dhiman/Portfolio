@@ -4,7 +4,7 @@
 import {useLayoutEffect, useEffect, useState } from "react"
 import SideBar from "@/components/SideBar"
 
-import AboutPage from "../about/page"
+import AboutContent from "@/components/AboutContent"
 import Projects from "../projects/page"
 import dynamic from "next/dynamic";
 import Connect from "../contact/page"
@@ -291,7 +291,7 @@ const onNewTab = () => {
     </div>
   ) : selectedFolderId === "hello" ? (
     <>
-      <div id="section-about" className="snap-start flex items-start justify-start"><AboutPage mobVinylOpen={mobVinylOpen} setMobVinylOpen={setMobVinylOpen} /></div>
+      <div id="section-about" className="snap-start flex items-start justify-start"><AboutContent mobVinylOpen={mobVinylOpen} setMobVinylOpen={setMobVinylOpen} /></div>
       <div id="section-experience" className="snap-start bg-zinc-950 flex items-center justify-center"><Experience /></div>
       <div id="section-projects" className="snap-start bg-zinc-950 flex flex-col items-center justify-center"><Projects /></div>
       <div id="section-stack" className="snap-start bg-zinc-950 flex items-center justify-center"><Stack /></div>

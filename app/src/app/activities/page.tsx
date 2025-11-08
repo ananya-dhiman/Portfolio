@@ -4,6 +4,7 @@
 import { useLayoutEffect } from "react";
 import { Zap, Code, Award, Coffee, Trophy} from "lucide-react";
 import Color from "color";
+import Image from "next/image";
 
 const achievementCards = [
   {
@@ -148,14 +149,16 @@ export default function Activities() {
         </div>
 
         {/* Cube Image */}
-        {/* <div className="flex justify-center items-center mt-8 sm:mt-12">
+        <div className="flex justify-center items-center mt-8 sm:mt-12">
           <Image
             src="/cube2.gif"
             alt="Spinning Cube"
+            width={48}
+            height={48}
         
             className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[275px] lg:h-[275px] object-cover rounded-none"
           />
-        </div> */}
+        </div>
       </div>
 
       <style jsx>{`
