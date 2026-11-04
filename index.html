@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" data-time="night">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ananya Dhiman · The Tower</title>
+    <meta name="description" content="Ananya Dhiman, Backend & AI engineer in Mumbai." />
+    <meta name="theme-color" content="#0F0D0D" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('time'); } catch (e) {}
+        if (t !== 'night' && t !== 'day') t = matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night';
+        document.documentElement.dataset.time = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript><p style="padding:24px;font-family:sans-serif">The Tower needs JavaScript. Ananya Dhiman · Backend &amp; AI engineer · dhimananya1901@gmail.com</p></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
