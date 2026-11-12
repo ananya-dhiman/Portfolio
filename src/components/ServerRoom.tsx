@@ -14,7 +14,7 @@ const racks = rackData.map((r) => ({
 
 export function ServerRoom() {
   return (
-    <Floor num="11" title="Server room" kicker="Stack">
+    <Floor num="12" title="Server room" kicker="Stack">
       <div className="sroom">
         <div className="racks">
           {racks.map((rk, _i1) => (<Fragment key={_i1}><section className="rack" aria-label={rk.title}><header className="rk-top"><span className="mono mut">{rk.no}</span><span className="rk-name">{rk.title}</span></header><ul className="units">{rk.units.map((u, _i2) => (<Fragment key={_i2}><li className="unit">{u.has && (<><svg className="uico" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={u.icon} /></svg></>)}{u.no && (<><span className="uico ulet" aria-hidden="true">{u.l}</span></>)}<span className="uname">{u.n}</span></li></Fragment>))}</ul><footer className="rk-feet" aria-hidden="true"><i /><i /></footer></section></Fragment>))}

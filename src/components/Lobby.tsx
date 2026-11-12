@@ -19,7 +19,7 @@ export function Lobby() {
         <div className="doorwrap">
           <div className="exitwrap">
             <span className="rods" aria-hidden="true" />
-            <a className="exit" href={site.resume} aria-label="Exit: open résumé"><span className="flick">EXIT</span></a>
+            <a className="exit" href={site.resume} target="_blank" rel="noopener" aria-label="Exit: open résumé"><span className="flick">EXIT</span></a>
           </div>
           <svg className="ill" viewBox="0 0 300 300" aria-hidden="true"><rect className="fills" x="20" y="20" width="260" height="280" /><rect className="fillr" x="32" y="32" width="114" height="268" style={{ fill: "var(--winOff)" }} /><rect className="fillr" x="154" y="32" width="114" height="268" style={{ fill: "var(--winOff)" }} /><path className="lnh" d="M48 70L100 122M54 100L120 166M170 70L222 122M176 100L242 166" /><path className="ln" d="M134 150V200M166 150V200" style={{ strokeWidth: "3" }} /></svg>
         </div>

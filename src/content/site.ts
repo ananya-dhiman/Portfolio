@@ -7,7 +7,7 @@ export const site = {
   email: 'dhimananya1901@gmail.com',
   github: 'https://github.com/ananya-dhiman',
   linkedin: '[LINKEDIN URL]',
-  resume: '/resume.pdf',
+  resume: 'https://drive.google.com/file/d/1JbTkT-O2-6OMdQBkPBEBJyoQ1EKOxwyT/view?usp=sharing',
   contactLine: 'Open to SDE roles and interesting systems problems.',
   footer: 'Built by hand · Ananya Dhiman · 2026',
   source: '[SITE REPO URL]',

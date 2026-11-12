@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" data-time="night">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EMTY: I built an app because I missed one deadline · Ananya Dhiman</title>
+    <meta name="description" content="Why I built EMTY, a privacy-first desktop email app that keeps sensitive mail on a local model." />
+    <meta name="theme-color" content="#0F0D0D" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://medium.com/@zecoder06/emty-i-built-an-app-because-i-missed-one-deadline-84b3dc09cea0" />
+    <script>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('time'); } catch (e) {}
+        if (t !== 'night' && t !== 'day') t = matchMedia('(prefers-color-scheme: light)').matches ? 'day' : 'night';
+        document.documentElement.dataset.time = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript><p style="padding:24px;font-family:sans-serif">This write-up needs JavaScript. It is also on Medium: <a href="https://medium.com/@zecoder06/emty-i-built-an-app-because-i-missed-one-deadline-84b3dc09cea0">EMTY: I built an app because I missed one deadline</a>.</p></noscript>
+    <script type="module" src="/src/writing/emty.tsx"></script>
+  </body>
+</html>

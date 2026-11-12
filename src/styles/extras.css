@@ -201,3 +201,23 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @container tw (max-width: 760px){
   .g2.lobby > div:last-child{justify-self:center;width:100%}
 }
+
+/* Ghostproof diagram packets (floor 11). Reuses the prototype's shared dF* keyframes;
+   .lab:not(.lit) pauses them like every other diagram. */
+.gp1 { offset-path: path('M84 132H124'); animation: dFin 3s linear infinite; }
+.gp2 { offset-path: path('M314 132H350'); animation: dFout 3s linear infinite; }
+.gp3 { offset-path: path('M183 152V200'); animation: dFcon 3s linear infinite; }
+
+/* Office (floor 13): org on the left, dates/place and role stacked on the right, so the
+   card header costs one row instead of three. */
+.xb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
+.xb-head .xb-co { margin: 0; }
+.xb-at { flex: none; text-align: right; }
+.xb-at .xp-meta { justify-content: flex-end; font-size: 12px; }
+.xb-at .xb-role { margin-top: 1px; font-size: 13px; }
+
+/* The experience cards carry a short bullet list and the tools used. */
+.xb-list { margin: 8px 0 0; padding-left: 15px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.xb-list li { margin: 0 0 4px; }
+.xb-list li::marker { color: var(--acc); }
+.xb-stack { margin: 10px 0 0; font-size: 12px; color: var(--line7); }

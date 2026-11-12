@@ -102,7 +102,7 @@ export function Labs() {
                     <p className="mono" style={{ margin: '14px 0 0' }}>{l.stack}</p>
                     <div style={{ display: 'flex', gap: 20, marginTop: 12 }}>
                       <a href={href(l.code)} target="_blank" rel="noopener">Code ↗</a>
-                      <a href={href(l.writeup)}>Write-up →</a>
+                      {l.writeup && <a href={l.writeup}>Write-up →</a>}
                     </div>
                   </div>
                   <div className="panel dg" role="img" aria-label={l.caption}>
