@@ -13,6 +13,7 @@ export function Lobby() {
             <a href={`mailto:${site.email}`}>{site.email}</a>
             <a href={href(site.github)} target="_blank" rel="noopener">GitHub ↗</a>
             <a href={href(site.linkedin)} target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href={href(site.x)} target="_blank" rel="noopener">X ↗</a>
             <a href={site.resume} target="_blank" rel="noopener">Résumé ↗</a>
           </div>
         </div>
