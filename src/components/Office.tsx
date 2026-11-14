@@ -13,11 +13,11 @@ export function Office() {
           {experience.map((x) => (
             <article className="xbox" key={x.org}>
               <div className="xb-head">
-                <h3 className="xb-co">{x.org}</h3>
-                <div className="xb-at">
-                  <div className="xp-meta mono"><span>{x.when}</span><span>{x.where}</span></div>
+                <div className="xb-id">
+                  <h3 className="xb-co">{x.org}</h3>
                   <div className="xb-role">{x.role}</div>
                 </div>
+                <div className="xb-meta mono"><span>{x.when}</span><span>{x.where}</span></div>
               </div>
               <p className="xb-d">{x.line}</p>
               <ul className="xb-list">

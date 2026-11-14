@@ -44,7 +44,7 @@ export function App() {
           <span className="lbl">{site.role} · {site.city}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="ind" aria-live="polite"><span aria-hidden="true">▼</span><b>{here.num}</b><span className="mut">{here.label}</span></div>
-            <button className="tbtn" type="button" aria-pressed={theme === 'day'} aria-label="Toggle night and day theme" onClick={toggleTheme}>◐</button>
+            <button className="tbtn" type="button" aria-pressed={theme === 'day'} aria-label="Toggle night and day theme" onClick={(e) => toggleTheme({ clientX: e.clientX, clientY: e.clientY })}>◐</button>
           </div>
         </div>
       </header>

@@ -208,16 +208,43 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .gp2 { offset-path: path('M314 132H350'); animation: dFout 3s linear infinite; }
 .gp3 { offset-path: path('M183 152V200'); animation: dFcon 3s linear infinite; }
 
-/* Office (floor 13): org on the left, dates/place and role stacked on the right, so the
-   card header costs one row instead of three. */
-.xb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
-.xb-head .xb-co { margin: 0; }
-.xb-at { flex: none; text-align: right; }
-.xb-at .xp-meta { justify-content: flex-end; font-size: 12px; }
-.xb-at .xb-role { margin-top: 1px; font-size: 13px; }
+/* Office (floor 13): centre the illustration in its column and give it a little more
+   height so it reads as the sizeable half of the split, not a small graphic up top. */
+.ofc5 { align-items: center; }
+.ofc5-ill { width: 100%; height: auto; max-height: 620px; align-self: center; justify-self: center; }
 
-/* The experience cards carry a short bullet list and the tools used. */
-.xb-list { margin: 8px 0 0; padding-left: 15px; font-size: 13px; line-height: 1.45; color: var(--muted); }
-.xb-list li { margin: 0 0 4px; }
+/* Experience cards: one consistent frame — org + role on the left, year/place on the
+   right, a hairline rule, then summary, bullets and the tools pinned to the foot. Cards
+   size to their own content (not forced to equal thirds), so the internal rhythm is even. */
+.xp5 { grid-template-rows: none; gap: 16px; align-content: start; }
+.xbox { display: flex; flex-direction: column; padding: 18px 20px 20px; }
+.xb-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--hair);
+}
+.xb-id { min-width: 0; }
+.xb-co { margin: 0; }
+.xb-role { margin-top: 2px; font-size: 13px; color: var(--muted); }
+.xb-meta {
+  flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+  font-size: 12px; letter-spacing: .02em; color: var(--muted); text-align: right; padding-top: 4px;
+}
+.xb-d { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: var(--line); }
+.xb-list { margin: 10px 0 0; padding-left: 16px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+.xb-list li { margin: 0 0 5px; }
 .xb-list li::marker { color: var(--acc); }
-.xb-stack { margin: 10px 0 0; font-size: 12px; color: var(--line7); }
+.xb-stack { margin: auto 0 0; padding-top: 12px; font-size: 12px; letter-spacing: .02em; color: var(--line7); }
+
+/* Dark <-> light theme change: a smooth circular wash of the new palette spreading out
+   from the toggle. Driven by the View Transitions API in hooks.ts (falls back to an
+   instant switch where that or reduced motion applies). The default cross-fade is
+   suppressed so only our expanding clip-path circle plays. */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2147483646; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+}

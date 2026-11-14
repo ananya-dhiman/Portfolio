@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { flushSync } from 'react-dom';
 import type { CSSProperties, RefObject } from 'react';
 
 /** Typed helper for inline custom properties like `--dl`. */
@@ -30,14 +31,39 @@ export function useCurrentFloor(): string {
 
 export type Theme = 'night' | 'day';
 
-export function useTheme(): [Theme, () => void] {
+type StartViewTransition = (cb: () => void) => { ready: Promise<void> };
+
+/**
+ * Night/day toggle. Where the browser supports the View Transitions API (and motion is
+ * allowed) the new palette washes in as a circle expanding from the point that was
+ * clicked; everywhere else the theme switches instantly, as before. The circular reveal
+ * itself is styled in extras.css (the default cross-fade is suppressed there).
+ */
+export function useTheme(): [Theme, (e?: { clientX: number; clientY: number }) => void] {
   const [theme, setTheme] = useState<Theme>(() => (document.documentElement.dataset.time as Theme) || 'night');
   useEffect(() => { document.documentElement.dataset.time = theme; }, [theme]);
-  const toggle = () => {
+
+  const toggle = (e?: { clientX: number; clientY: number }) => {
     const next: Theme = theme === 'day' ? 'night' : 'day';
-    setTheme(next);
     try { localStorage.setItem('time', next); } catch { /* storage blocked */ }
+
+    const start = (document as unknown as { startViewTransition?: StartViewTransition }).startViewTransition;
+    if (!start || prefersReducedMotion()) { setTheme(next); return; }
+
+    // Reveal origin: the toggle itself, or the screen centre if we have no coordinates.
+    const x = e?.clientX ?? innerWidth / 2;
+    const y = e?.clientY ?? innerHeight / 2;
+    const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+    const transition = start.call(document, () => flushSync(() => setTheme(next)));
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+        { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', pseudoElement: '::view-transition-new(root)' },
+      );
+    }).catch(() => { /* a superseded transition rejects; the theme is already set */ });
   };
+
   return [theme, toggle];
 }
 
