@@ -241,6 +241,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
    suppressed so only our expanding clip-path circle plays. */
 ::view-transition-old(root),
 ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+/* While the wash plays (hooks.ts sets data-theme-anim for its duration) every part of the
+   building drops its own transition and switches colour instantly, so nothing lags behind
+   the sweep or flashes an intermediate colour. Only the clip-path wash itself animates. */
+html[data-theme-anim] *,
+html[data-theme-anim] *::before,
+html[data-theme-anim] *::after { transition: none !important; }
 ::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2147483646; }
 @media (prefers-reduced-motion: reduce) {

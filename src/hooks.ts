@@ -31,7 +31,7 @@ export function useCurrentFloor(): string {
 
 export type Theme = 'night' | 'day';
 
-type StartViewTransition = (cb: () => void) => { ready: Promise<void> };
+type StartViewTransition = (cb: () => void) => { ready: Promise<void>; finished: Promise<void> };
 
 /**
  * Night/day toggle. Where the browser supports the View Transitions API (and motion is
@@ -47,8 +47,20 @@ export function useTheme(): [Theme, (e?: { clientX: number; clientY: number }) =
     const next: Theme = theme === 'day' ? 'night' : 'day';
     try { localStorage.setItem('time', next); } catch { /* storage blocked */ }
 
+    // The building's parts carry their own long, delayed colour transitions (a floor is
+    // `background .6s ease 1.1s`). Left on, they'd still show the old colour in the wash's
+    // snapshot and then crawl to the new one after it ends. Freeze them for the switch so
+    // every part lands on its final colour at once and only the circular wash animates.
+    const root = document.documentElement;
+    root.setAttribute('data-theme-anim', '');
+    const release = () => root.removeAttribute('data-theme-anim');
+
     const start = (document as unknown as { startViewTransition?: StartViewTransition }).startViewTransition;
-    if (!start || prefersReducedMotion()) { setTheme(next); return; }
+    if (!start || prefersReducedMotion()) {
+      flushSync(() => setTheme(next));
+      requestAnimationFrame(release);
+      return;
+    }
 
     // Reveal origin: the toggle itself, or the screen centre if we have no coordinates.
     const x = e?.clientX ?? innerWidth / 2;
@@ -62,6 +74,7 @@ export function useTheme(): [Theme, (e?: { clientX: number; clientY: number }) =
         { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', pseudoElement: '::view-transition-new(root)' },
       );
     }).catch(() => { /* a superseded transition rejects; the theme is already set */ });
+    transition.finished.finally(release);
   };
 
   return [theme, toggle];
